@@ -1,0 +1,500 @@
+﻿{
+  "info": {
+    "_postman_id": "reloop-waste-management-api",
+    "name": "ReLoop Waste Management API",
+    "description": "Complete Postman collection for ReLoop — Farmer to Recycler Waste Management Platform",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "farmerToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "buyerToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "orderId",
+      "value": "1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "Login as Farmer",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.data && jsonData.data.accessToken) {",
+                  "    pm.collectionVariables.set('farmerToken', jsonData.data.accessToken);",
+                  "    console.log('Farmer Token Saved Successfully');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"ramesh.farmer@reloop.com\",\n  \"password\": \"Password@123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Login as Buyer (Recycler)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.data && jsonData.data.accessToken) {",
+                  "    pm.collectionVariables.set('buyerToken', jsonData.data.accessToken);",
+                  "    console.log('Buyer Token Saved Successfully');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"procurement@biocompost.com\",\n  \"password\": \"Password@123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Register New Farmer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Suresh Patel\",\n  \"email\": \"suresh.farmer@reloop.com\",\n  \"phone\": \"+919876500001\",\n  \"password\": \"Password@123\",\n  \"role\": \"SUPPLIER\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Register New Buyer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Green Earth Recyclers\",\n  \"email\": \"contact@greenearth.com\",\n  \"phone\": \"+919876500002\",\n  \"password\": \"Password@123\",\n  \"role\": \"BUYER\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "register"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Materials Catalog",
+      "item": [
+        {
+          "name": "Get All Active Materials",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/materials",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "materials"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Farmer Profile & Listings",
+      "item": [
+        {
+          "name": "Get Current Farmer Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{farmerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/farmers/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "farmers", "me"]
+            }
+          }
+        },
+        {
+          "name": "Update Farmer Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{farmerToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"farmerName\": \"Ramesh Kumar\",\n  \"farmName\": \"Kisan Organic Farms\",\n  \"addressLine\": \"GT Road, Near Canal\",\n  \"village\": \"Samrala\",\n  \"city\": \"Ludhiana\",\n  \"state\": \"Punjab\",\n  \"postalCode\": \"141114\",\n  \"latitude\": 30.9010,\n  \"longitude\": 75.8573,\n  \"farmDescription\": \"Specialized in organic vegetables, tomato waste and wheat stubble\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/farmers/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "farmers", "me"]
+            }
+          }
+        },
+        {
+          "name": "Create Waste Listing (Farmer)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{farmerToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"materialTypeId\": 1,\n  \"title\": \"Fresh Tomato & Vegetable Field Residue\",\n  \"description\": \"500 kg fresh sorting organic vegetable waste, high nutrient content for compost and bio-slurry.\",\n  \"quantityAvailable\": 500.0,\n  \"unit\": \"KG\",\n  \"pricePerUnit\": 3.50,\n  \"minimumOrderQuantity\": 50.0,\n  \"pickupAddress\": \"Kisan Organic Farm, GT Road\",\n  \"village\": \"Samrala\",\n  \"city\": \"Ludhiana\",\n  \"state\": \"Punjab\",\n  \"postalCode\": \"141114\",\n  \"latitude\": 30.9010,\n  \"longitude\": 75.8573,\n  \"availabilityDate\": \"2026-11-01\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/listings",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "listings"]
+            }
+          }
+        },
+        {
+          "name": "Get Farmer's Own Listings",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{farmerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/farmers/me/listings",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "farmers", "me", "listings"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Public Marketplace Discovery",
+      "item": [
+        {
+          "name": "Search Available Listings (All)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/listings",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "listings"]
+            }
+          }
+        },
+        {
+          "name": "Filter Listings by City & Material",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/listings?city=Ludhiana&materialTypeId=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "listings"],
+              "query": [
+                {
+                  "key": "city",
+                  "value": "Ludhiana"
+                },
+                {
+                  "key": "materialTypeId",
+                  "value": "1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Listing Details by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/listings/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "listings", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Buyer Requirements & Matching",
+      "item": [
+        {
+          "name": "Publish Buyer Requirement",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{buyerToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"materialTypeId\": 1,\n  \"requiredQuantity\": 300.0,\n  \"unit\": \"KG\",\n  \"maxPricePerUnit\": 4.50,\n  \"maxDistanceKm\": 50.0,\n  \"preferredVillage\": \"Samrala\",\n  \"preferredCity\": \"Ludhiana\",\n  \"preferredState\": \"Punjab\",\n  \"pickupOrDelivery\": \"EITHER\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/buyer-requirements",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "buyer-requirements"]
+            }
+          }
+        },
+        {
+          "name": "Get Buyer's Requirements",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{buyerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/buyer-requirements/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "buyer-requirements", "me"]
+            }
+          }
+        },
+        {
+          "name": "Find Matches for Buyer Requirements",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{buyerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/matches",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "matches"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Orders & Workflow",
+      "item": [
+        {
+          "name": "Place Order (Buyer)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{buyerToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"listingId\": 1,\n  \"quantityOrdered\": 200.0,\n  \"pickupOrDelivery\": \"PICKUP\",\n  \"deliveryAddress\": \"BioCompost Processing Unit, Phase 2, Ludhiana\",\n  \"notes\": \"Logistics pickup truck will arrive tomorrow morning.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "orders"]
+            }
+          }
+        },
+        {
+          "name": "Get My Orders (Buyer or Farmer)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{buyerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "orders", "me"]
+            }
+          }
+        },
+        {
+          "name": "Accept Order (Farmer)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{farmerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderId}}/accept",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "orders", "{{orderId}}", "accept"]
+            }
+          }
+        },
+        {
+          "name": "Reject Order (Farmer)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{farmerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderId}}/reject",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "orders", "{{orderId}}", "reject"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "7. Payment Sandbox",
+      "item": [
+        {
+          "name": "Initiate Checkout (Buyer)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{buyerToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"paymentMethod\": \"UPI\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/payments/orders/{{orderId}}/checkout",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "payments", "orders", "{{orderId}}", "checkout"]
+            }
+          }
+        },
+        {
+          "name": "Get Order Payment Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{buyerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/payments/orders/{{orderId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "payments", "orders", "{{orderId}}"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
