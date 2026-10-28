@@ -1,0 +1,58 @@
+# Environment Variables and Secrets (NEVER COMMIT SENSITIVE DATA)
+.env
+.env.local
+*.env
+*.pem
+*.key
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# IDE and Editor Files
+.idea/
+.vscode/
+*.iml
+*.swp
+*.swo
+
+# Node.js / React (Frontend)
+client/node_modules/
+client/dist/
+client/dist-ssr/
+client/.vite/
+client/*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Java / Maven (Spring Boot Backend)
+server/target/
+server/.mvn/
+server/*.class
+server/*.jar
+server/*.war
+server/*.nar
+server/*.ear
+
+# Python (AI Service)
+ai-service/__pycache__/
+ai-service/*/__pycache__/
+ai-service/*/*/__pycache__/
+ai-service/*/*/*/__pycache__/
+ai-service/*.py[cod]
+ai-service/.venv/
+ai-service/venv/
+ai-service/env/
+ai-service/.pytest_cache/
+ai-service/.coverage
+ai-service/htmlcov/
+ai-service/*.egg-info/
+ai-service/.mypy_cache/
+
+# Large Model Weight Files (store on Google Drive, HuggingFace, or S3 if > 50MB)
+*.h5
+*.pt
+*.pth
+*.onnx
+*.bin
