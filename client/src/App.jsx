@@ -992,7 +992,9 @@ const handleOpenToolModal = (tool) => {
           <CropRecommendationView />
         </main>
       )}
-      {activeView === 'marketplace' && <MarketplaceView />}
+      {activeView === 'marketplace' && (
+  <MarketplaceView currentUser={currentUser} />
+)}
 
       {/* ============================================================
           FOOTER
