@@ -1,37 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
+import MarketplaceRoleSelection from './MarketplaceRoleSelection';
 
 export default function MarketplaceView() {
+  const [selectedRole, setSelectedRole] = useState(null);
+
+  const handleRoleSelection = (role) => {
+    setSelectedRole(role);
+    console.log('Selected Marketplace Role:', role);
+  };
+
   return (
-    <main
-      id="main"
-      className="marketplace-view-container"
-      style={{ padding: '30px 0 80px' }}
-    >
-      <div className="container">
-        <div className="tools-page-header">
-          <div className="tools-title-badge">
-            <i className="fas fa-store"></i>
-            <span>Direct Farmer Mandi & Commerce</span>
-          </div>
-
-          <h2 className="stitle" style={{ color: 'var(--text-primary)' }}>
-            AgroSphere <span>Marketplace</span>
-          </h2>
-
-          <div className="sline"></div>
-
-          <p
-            className="sdesc mx-auto"
-            style={{
-              maxWidth: '640px',
-              color: 'var(--text-secondary)'
-            }}
-          >
-            Connect farmers, FPOs, buyers and logistics partners through
-            a unified agricultural marketplace.
-          </p>
-        </div>
-      </div>
-    </main>
+    <MarketplaceRoleSelection
+      onSelectRole={handleRoleSelection}
+    />
   );
 }
