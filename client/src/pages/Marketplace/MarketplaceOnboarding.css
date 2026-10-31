@@ -413,3 +413,198 @@
     min-height: 47px;
   }
 }
+
+/* =====================================================
+   AGROSPHERE NATIVE DUAL THEME OVERRIDES
+   Marketplace Onboarding
+===================================================== */
+
+.marketplace-onboarding {
+  background: var(--ambient-bg) !important;
+  color: var(--text-secondary) !important;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Back Button */
+.marketplace-onboarding .btn-dark-glass-secondary {
+  color: var(--text-primary) !important;
+  background: var(--bg-glass-card) !important;
+  border-color: var(--border-color) !important;
+  box-shadow: var(--shadow);
+}
+
+.marketplace-onboarding .btn-dark-glass-secondary:hover {
+  background: var(--bg-surface-elevated) !important;
+  border-color: var(--border-highlight) !important;
+}
+
+/* Header */
+.marketplace-onboarding .tools-title-badge {
+  color: var(--secondary) !important;
+  background: rgba(79, 138, 82, 0.12) !important;
+  border-color: var(--border-highlight) !important;
+}
+
+.marketplace-onboarding .stitle {
+  color: var(--text-primary) !important;
+}
+
+.marketplace-onboarding .stitle span {
+  color: var(--secondary) !important;
+}
+
+.marketplace-onboarding .sline {
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+}
+
+.marketplace-onboarding .sdesc {
+  color: var(--text-secondary) !important;
+}
+
+/* Main Form Card */
+.marketplace-onboarding form.glass-card {
+  background: var(--bg-glass-card) !important;
+  border: 1px solid var(--border-glass) !important;
+  box-shadow: var(--shadow-lg) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Section Headings */
+.marketplace-onboarding form h5 {
+  color: var(--text-primary) !important;
+}
+
+.marketplace-onboarding form h5::before {
+  background: linear-gradient(180deg, var(--secondary), var(--accent));
+}
+
+/* Labels */
+.marketplace-onboarding .form-label {
+  color: var(--text-primary) !important;
+}
+
+/* Inputs and Dropdowns */
+.marketplace-onboarding .form-control,
+.marketplace-onboarding .form-select {
+  color: var(--text-primary) !important;
+  -webkit-text-fill-color: var(--text-primary) !important;
+  background-color: var(--bg-surface) !important;
+  border-color: var(--border-color) !important;
+  box-shadow: none !important;
+}
+
+.marketplace-onboarding .form-control::placeholder {
+  color: var(--text-secondary) !important;
+  -webkit-text-fill-color: var(--text-secondary) !important;
+  opacity: 0.75 !important;
+}
+
+.marketplace-onboarding .form-control:focus,
+.marketplace-onboarding .form-select:focus {
+  color: var(--text-primary) !important;
+  -webkit-text-fill-color: var(--text-primary) !important;
+  background-color: var(--bg-surface-elevated) !important;
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px var(--shadow-glow) !important;
+}
+
+.marketplace-onboarding .form-control[readonly] {
+  color: var(--text-secondary) !important;
+  -webkit-text-fill-color: var(--text-secondary) !important;
+  background-color: var(--bg-surface-elevated) !important;
+}
+
+.marketplace-onboarding .form-select option {
+  color: var(--text-primary) !important;
+  background: var(--bg-surface) !important;
+}
+
+/* Divider */
+.marketplace-onboarding form hr {
+  border-top-color: var(--border-color) !important;
+}
+
+/* Submit Button */
+.marketplace-onboarding .glass-btn-submit {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  background: linear-gradient(
+    135deg,
+    var(--primary),
+    var(--secondary)
+  ) !important;
+  border-color: var(--border-highlight) !important;
+  box-shadow: var(--shadow);
+}
+
+.marketplace-onboarding .glass-btn-submit:hover {
+  background: linear-gradient(
+    135deg,
+    var(--primary-hover),
+    var(--secondary-hover)
+  ) !important;
+  box-shadow: var(--shadow-glow);
+}
+
+/* Theme Transitions */
+.marketplace-onboarding form.glass-card,
+.marketplace-onboarding .form-control,
+.marketplace-onboarding .form-select,
+.marketplace-onboarding .form-label,
+.marketplace-onboarding form h5 {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+/* =========================================
+   DARK MODE - INPUT TEXT & PLACEHOLDER FIX
+========================================= */
+
+[data-theme="dark"] .marketplace-onboarding .form-control,
+[data-theme="dark"] .marketplace-onboarding .form-select {
+    color: #F4F7F0 !important;
+    -webkit-text-fill-color: #F4F7F0 !important;
+    background-color: #102B1D !important;
+    border: 1px solid rgba(184, 217, 106, 0.20) !important;
+}
+
+/* Placeholder should be muted, not white */
+[data-theme="dark"] .marketplace-onboarding .form-control::placeholder {
+    color: #9BAF9F !important;
+    -webkit-text-fill-color: #9BAF9F !important;
+    opacity: 1 !important;
+}
+
+/* Typed text while entering */
+[data-theme="dark"] .marketplace-onboarding .form-control:focus {
+    color: #FFFFFF !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+    background-color: #153524 !important;
+    border-color: #B8D96A !important;
+    box-shadow: 0 0 0 3px rgba(184, 217, 106, 0.15) !important;
+}
+
+/* Select dropdown options */
+[data-theme="dark"] .marketplace-onboarding .form-select option {
+    color: #F4F7F0 !important;
+    background-color: #102B1D !important;
+}
+
+/* Readonly fields */
+[data-theme="dark"] .marketplace-onboarding .form-control[readonly] {
+    color: #B4C5B7 !important;
+    -webkit-text-fill-color: #B4C5B7 !important;
+    background-color: #0B2117 !important;
+}
+
+/* Autofill text fix (Chrome) */
+[data-theme="dark"] .marketplace-onboarding .form-control:-webkit-autofill,
+[data-theme="dark"] .marketplace-onboarding .form-control:-webkit-autofill:hover,
+[data-theme="dark"] .marketplace-onboarding .form-control:-webkit-autofill:focus {
+    -webkit-text-fill-color: #F4F7F0 !important;
+    box-shadow: 0 0 0 1000px #102B1D inset !important;
+    caret-color: #F4F7F0 !important;
+}
