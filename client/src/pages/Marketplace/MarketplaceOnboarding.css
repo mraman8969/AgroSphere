@@ -1,0 +1,610 @@
+
+/* =====================================================
+   AGROSPHERE MARKETPLACE ONBOARDING
+   Light Glassmorphism - AgroSphere Native Theme
+===================================================== */
+
+.marketplace-onboarding {
+  --mp-primary: #65a30d;
+  --mp-primary-dark: #3f6212;
+  --mp-primary-light: #84cc16;
+  --mp-heading: #1b3324;
+  --mp-text: #46574b;
+  --mp-muted: #718078;
+  --mp-border: rgba(74, 112, 65, 0.16);
+  --mp-surface: rgba(255, 255, 255, 0.76);
+
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-height: 85vh;
+  padding: 40px 0 85px !important;
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 10% 10%,
+      rgba(163, 230, 53, 0.12),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 90% 85%,
+      rgba(13, 148, 136, 0.07),
+      transparent 35%
+    );
+
+  color: var(--mp-text) !important;
+}
+
+/* ---------- Background decoration ---------- */
+
+.marketplace-onboarding::before,
+.marketplace-onboarding::after {
+  content: "";
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.marketplace-onboarding::before {
+  top: 0;
+  left: -180px;
+  background: rgba(132, 204, 22, 0.12);
+}
+
+.marketplace-onboarding::after {
+  right: -180px;
+  bottom: 0;
+  background: rgba(13, 148, 136, 0.09);
+}
+
+.marketplace-onboarding > .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- Back button ---------- */
+
+.marketplace-onboarding .btn-dark-glass-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+
+  padding: 10px 17px !important;
+
+  color: #36533d !important;
+  background: rgba(255, 255, 255, 0.65) !important;
+
+  border: 1px solid var(--mp-border) !important;
+  border-radius: 11px !important;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  box-shadow: 0 3px 12px rgba(35, 60, 35, 0.04);
+  transition: all 0.25s ease;
+}
+
+.marketplace-onboarding .btn-dark-glass-secondary:hover {
+  color: var(--mp-primary-dark) !important;
+  background: #ffffff !important;
+  border-color: rgba(101, 163, 13, 0.4) !important;
+  transform: translateX(-3px);
+}
+
+/* ---------- Header ---------- */
+
+.marketplace-onboarding .tools-page-header {
+  max-width: 720px;
+  margin: 30px auto 38px;
+  text-align: center;
+}
+
+.marketplace-onboarding .tools-title-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+
+  padding: 9px 16px;
+  margin-bottom: 18px;
+
+  color: #4d7c0f !important;
+  background: rgba(132, 204, 22, 0.11) !important;
+
+  border: 1px solid rgba(101, 163, 13, 0.20);
+  border-radius: 30px;
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.marketplace-onboarding .stitle {
+  margin: 0 0 15px !important;
+
+  color: var(--mp-heading) !important;
+
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1.25;
+}
+
+.marketplace-onboarding .stitle span {
+  color: var(--mp-primary) !important;
+}
+
+.marketplace-onboarding .sline {
+  width: 62px;
+  height: 3px;
+  margin: 18px auto;
+
+  background: linear-gradient(
+    90deg,
+    #65a30d,
+    #0d9488
+  );
+
+  border-radius: 10px;
+}
+
+.marketplace-onboarding .sdesc {
+  max-width: 560px;
+  margin: 0 auto !important;
+
+  color: #68776d !important;
+
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+/* ---------- Main form card ---------- */
+
+.marketplace-onboarding form.glass-card {
+  width: 100%;
+  padding: 35px !important;
+
+  background: rgba(255, 255, 255, 0.73) !important;
+
+  border: 1px solid rgba(255, 255, 255, 0.90) !important;
+  border-radius: 20px !important;
+
+  box-shadow:
+    0 15px 45px rgba(43, 68, 39, 0.08),
+    0 2px 8px rgba(43, 68, 39, 0.035),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+/* ---------- Section headings ---------- */
+
+.marketplace-onboarding form h5 {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  margin: 0 0 24px !important;
+
+  color: #243d2c !important;
+
+  font-size: 17px;
+  font-weight: 750;
+  letter-spacing: -0.2px;
+}
+
+.marketplace-onboarding form h5::before {
+  content: "";
+
+  width: 4px;
+  height: 23px;
+
+  background: var(--mp-primary);
+  border-radius: 5px;
+
+  box-shadow: 0 0 9px rgba(101, 163, 13, 0.18);
+}
+
+/* ---------- Labels ---------- */
+
+.marketplace-onboarding .form-label {
+  display: block;
+  margin-bottom: 9px;
+
+  color: #354b3b !important;
+
+  font-size: 13px;
+  font-weight: 650;
+}
+
+/* ---------- Input fields ---------- */
+
+.marketplace-onboarding .form-control,
+.marketplace-onboarding .form-select {
+  width: 100%;
+  min-height: 49px;
+
+  padding: 12px 15px !important;
+
+  color: #24382b !important;
+  -webkit-text-fill-color: #24382b !important;
+
+  background: rgba(255, 255, 255, 0.92) !important;
+
+  border: 1px solid rgba(70, 110, 68, 0.20) !important;
+  border-radius: 10px !important;
+
+  outline: none !important;
+  box-shadow: 0 2px 5px rgba(40, 65, 40, 0.025) !important;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  transition: all 0.22s ease;
+}
+
+/* Placeholder */
+
+.marketplace-onboarding .form-control::placeholder {
+  color: #89968c !important;
+  -webkit-text-fill-color: #89968c !important;
+  opacity: 1 !important;
+}
+
+/* Focus state */
+
+.marketplace-onboarding .form-control:focus,
+.marketplace-onboarding .form-select:focus {
+  color: #24382b !important;
+  -webkit-text-fill-color: #24382b !important;
+
+  background: #ffffff !important;
+
+  border-color: #84cc16 !important;
+
+  box-shadow:
+    0 0 0 3px rgba(132, 204, 22, 0.12),
+    0 3px 10px rgba(50, 90, 40, 0.045) !important;
+}
+
+/* Readonly email */
+
+.marketplace-onboarding .form-control[readonly] {
+  color: #68776d !important;
+  -webkit-text-fill-color: #68776d !important;
+
+  background: #edf2eb !important;
+  cursor: not-allowed;
+}
+
+/* Dropdown options */
+
+.marketplace-onboarding .form-select option {
+  color: #24382b !important;
+  background: #ffffff !important;
+}
+
+/* ---------- Divider ---------- */
+
+.marketplace-onboarding form hr {
+  margin: 30px 0 !important;
+
+  border: 0;
+  border-top: 1px solid rgba(70, 110, 68, 0.14) !important;
+
+  opacity: 1 !important;
+}
+
+/* ---------- Error message ---------- */
+
+.marketplace-onboarding form p[style*="ef4444"] {
+  padding: 12px 15px;
+
+  color: #b42318 !important;
+  background: rgba(254, 226, 226, 0.65);
+
+  border: 1px solid rgba(220, 38, 38, 0.16);
+  border-radius: 10px;
+
+  font-size: 13px;
+}
+
+/* ---------- Submit button ---------- */
+
+.marketplace-onboarding .glass-btn-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  width: 100%;
+  min-height: 51px;
+
+  padding: 13px 20px !important;
+
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+
+  background: linear-gradient(
+    110deg,
+    #4d7c0f,
+    #65a30d
+  ) !important;
+
+  border: 1px solid rgba(101, 163, 13, 0.35) !important;
+  border-radius: 11px !important;
+
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.15px;
+
+  box-shadow: 0 6px 18px rgba(77, 124, 15, 0.17);
+
+  transition: all 0.25s ease;
+}
+
+.marketplace-onboarding .glass-btn-submit:hover {
+  color: #ffffff !important;
+  background: linear-gradient(
+    110deg,
+    #3f6212,
+    #4d7c0f
+  ) !important;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 10px 24px rgba(77, 124, 15, 0.23);
+}
+
+.marketplace-onboarding .glass-btn-submit:active {
+  transform: translateY(0);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 768px) {
+  .marketplace-onboarding {
+    padding: 25px 0 60px !important;
+  }
+
+  .marketplace-onboarding .tools-page-header {
+    margin: 25px auto 28px;
+  }
+
+  .marketplace-onboarding .stitle {
+    font-size: 29px;
+  }
+
+  .marketplace-onboarding form.glass-card {
+    padding: 25px 20px !important;
+    border-radius: 17px !important;
+  }
+
+  .marketplace-onboarding form hr {
+    margin: 24px 0 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .marketplace-onboarding .stitle {
+    font-size: 25px;
+  }
+
+  .marketplace-onboarding .sdesc {
+    font-size: 13px;
+  }
+
+  .marketplace-onboarding form.glass-card {
+    padding: 20px 15px !important;
+  }
+
+  .marketplace-onboarding form h5 {
+    font-size: 16px;
+  }
+
+  .marketplace-onboarding .form-control,
+  .marketplace-onboarding .form-select {
+    min-height: 47px;
+  }
+}
+
+/* =====================================================
+   AGROSPHERE NATIVE DUAL THEME OVERRIDES
+   Marketplace Onboarding
+===================================================== */
+
+.marketplace-onboarding {
+  background: var(--ambient-bg) !important;
+  color: var(--text-secondary) !important;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Back Button */
+.marketplace-onboarding .btn-dark-glass-secondary {
+  color: var(--text-primary) !important;
+  background: var(--bg-glass-card) !important;
+  border-color: var(--border-color) !important;
+  box-shadow: var(--shadow);
+}
+
+.marketplace-onboarding .btn-dark-glass-secondary:hover {
+  background: var(--bg-surface-elevated) !important;
+  border-color: var(--border-highlight) !important;
+}
+
+/* Header */
+.marketplace-onboarding .tools-title-badge {
+  color: var(--secondary) !important;
+  background: rgba(79, 138, 82, 0.12) !important;
+  border-color: var(--border-highlight) !important;
+}
+
+.marketplace-onboarding .stitle {
+  color: var(--text-primary) !important;
+}
+
+.marketplace-onboarding .stitle span {
+  color: var(--secondary) !important;
+}
+
+.marketplace-onboarding .sline {
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+}
+
+.marketplace-onboarding .sdesc {
+  color: var(--text-secondary) !important;
+}
+
+/* Main Form Card */
+.marketplace-onboarding form.glass-card {
+  background: var(--bg-glass-card) !important;
+  border: 1px solid var(--border-glass) !important;
+  box-shadow: var(--shadow-lg) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Section Headings */
+.marketplace-onboarding form h5 {
+  color: var(--text-primary) !important;
+}
+
+.marketplace-onboarding form h5::before {
+  background: linear-gradient(180deg, var(--secondary), var(--accent));
+}
+
+/* Labels */
+.marketplace-onboarding .form-label {
+  color: var(--text-primary) !important;
+}
+
+/* Inputs and Dropdowns */
+.marketplace-onboarding .form-control,
+.marketplace-onboarding .form-select {
+  color: var(--text-primary) !important;
+  -webkit-text-fill-color: var(--text-primary) !important;
+  background-color: var(--bg-surface) !important;
+  border-color: var(--border-color) !important;
+  box-shadow: none !important;
+}
+
+.marketplace-onboarding .form-control::placeholder {
+  color: var(--text-secondary) !important;
+  -webkit-text-fill-color: var(--text-secondary) !important;
+  opacity: 0.75 !important;
+}
+
+.marketplace-onboarding .form-control:focus,
+.marketplace-onboarding .form-select:focus {
+  color: var(--text-primary) !important;
+  -webkit-text-fill-color: var(--text-primary) !important;
+  background-color: var(--bg-surface-elevated) !important;
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px var(--shadow-glow) !important;
+}
+
+.marketplace-onboarding .form-control[readonly] {
+  color: var(--text-secondary) !important;
+  -webkit-text-fill-color: var(--text-secondary) !important;
+  background-color: var(--bg-surface-elevated) !important;
+}
+
+.marketplace-onboarding .form-select option {
+  color: var(--text-primary) !important;
+  background: var(--bg-surface) !important;
+}
+
+/* Divider */
+.marketplace-onboarding form hr {
+  border-top-color: var(--border-color) !important;
+}
+
+/* Submit Button */
+.marketplace-onboarding .glass-btn-submit {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  background: linear-gradient(
+    135deg,
+    var(--primary),
+    var(--secondary)
+  ) !important;
+  border-color: var(--border-highlight) !important;
+  box-shadow: var(--shadow);
+}
+
+.marketplace-onboarding .glass-btn-submit:hover {
+  background: linear-gradient(
+    135deg,
+    var(--primary-hover),
+    var(--secondary-hover)
+  ) !important;
+  box-shadow: var(--shadow-glow);
+}
+
+/* Theme Transitions */
+.marketplace-onboarding form.glass-card,
+.marketplace-onboarding .form-control,
+.marketplace-onboarding .form-select,
+.marketplace-onboarding .form-label,
+.marketplace-onboarding form h5 {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+/* =========================================
+   DARK MODE - INPUT TEXT & PLACEHOLDER FIX
+========================================= */
+
+[data-theme="dark"] .marketplace-onboarding .form-control,
+[data-theme="dark"] .marketplace-onboarding .form-select {
+    color: #F4F7F0 !important;
+    -webkit-text-fill-color: #F4F7F0 !important;
+    background-color: #102B1D !important;
+    border: 1px solid rgba(184, 217, 106, 0.20) !important;
+}
+
+/* Placeholder should be muted, not white */
+[data-theme="dark"] .marketplace-onboarding .form-control::placeholder {
+    color: #9BAF9F !important;
+    -webkit-text-fill-color: #9BAF9F !important;
+    opacity: 1 !important;
+}
+
+/* Typed text while entering */
+[data-theme="dark"] .marketplace-onboarding .form-control:focus {
+    color: #FFFFFF !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+    background-color: #153524 !important;
+    border-color: #B8D96A !important;
+    box-shadow: 0 0 0 3px rgba(184, 217, 106, 0.15) !important;
+}
+
+/* Select dropdown options */
+[data-theme="dark"] .marketplace-onboarding .form-select option {
+    color: #F4F7F0 !important;
+    background-color: #102B1D !important;
+}
+
+/* Readonly fields */
+[data-theme="dark"] .marketplace-onboarding .form-control[readonly] {
+    color: #B4C5B7 !important;
+    -webkit-text-fill-color: #B4C5B7 !important;
+    background-color: #0B2117 !important;
+}
+
+/* Autofill text fix (Chrome) */
+[data-theme="dark"] .marketplace-onboarding .form-control:-webkit-autofill,
+[data-theme="dark"] .marketplace-onboarding .form-control:-webkit-autofill:hover,
+[data-theme="dark"] .marketplace-onboarding .form-control:-webkit-autofill:focus {
+    -webkit-text-fill-color: #F4F7F0 !important;
+    box-shadow: 0 0 0 1000px #102B1D inset !important;
+    caret-color: #F4F7F0 !important;
+}

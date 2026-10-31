@@ -8,6 +8,7 @@ import CropRecommendationView from './pages/CropRecommendation/CropRecommendatio
 import WeatherPanel from './components/WeatherPanel';
 import AuthModal from './components/AuthModal';
 import InstallModal from './components/InstallModal';
+import MarketplaceView from './pages/Marketplace/MarketplaceView';
 
 // Curated high-resolution agricultural image assets
 const AGRI_IMAGES = {
@@ -186,10 +187,11 @@ export default function App() {
     if (typeof window !== 'undefined') {
       const h = window.location.hash;
       if (h === '#disease') return 'disease';
+      if (h === '#marketplace') return 'marketplace';
       if (h === '#crop') return 'crop';
       if (h === '#tools') return 'tools';
       if (h === '#how-it-works') return 'how-it-works';
-      if (h === '#contact') return 'contact';
+      if (h === '#contact') return 'contact';  
     }
     return 'home';
   });
@@ -292,6 +294,7 @@ export default function App() {
     const handleHashChange = () => {
       const hash = window.location.hash;
       if (hash === '#disease') setActiveView('disease');
+      else if (hash === '#marketplace') setActiveView('marketplace');
       else if (hash === '#crop') setActiveView('crop');
       else if (hash === '#tools') setActiveView('tools');
       else if (hash === '#how-it-works') setActiveView('how-it-works');
@@ -319,9 +322,14 @@ export default function App() {
     };
   }, []);
 
-  const handleOpenToolModal = (tool) => {
-    setActiveToolModal(tool);
-  };
+const handleOpenToolModal = (tool) => {
+  if (tool.route === 'modal-mandi') {
+    navigateToView('marketplace');
+    return;
+  }
+
+  setActiveToolModal(tool);
+};
 
   return (
     <div>
@@ -984,6 +992,9 @@ export default function App() {
           <CropRecommendationView />
         </main>
       )}
+      {activeView === 'marketplace' && (
+  <MarketplaceView currentUser={currentUser} />
+)}
 
       {/* ============================================================
           FOOTER
