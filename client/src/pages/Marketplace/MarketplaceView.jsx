@@ -54,6 +54,21 @@ export default function MarketplaceView({ currentUser }) {
     }
   };
 
+  // Navigate back to Role Selection
+const handleBackToRoles = () => {
+  setSelectedRole(null);
+  setActiveRole(null);
+};
+
+// Navigate back to All Tools
+const handleBackToAllTools = () => {
+  setSelectedRole(null);
+  setActiveRole(null);
+
+  // Return to AgroSphere All Tools page
+  window.location.hash = '';
+};
+
   // Handle successful onboarding
   const handleOnboardingComplete = (profile) => {
     const updatedProfiles = {
@@ -70,11 +85,12 @@ export default function MarketplaceView({ currentUser }) {
   if (selectedRole) {
     return (
       <MarketplaceOnboarding
-        role={selectedRole}
-        currentUser={currentUser}
-        onBack={() => setSelectedRole(null)}
-        onComplete={handleOnboardingComplete}
-      />
+  role={selectedRole}
+  currentUser={currentUser}
+  onBack={handleBackToRoles}
+  onBackToTools={handleBackToAllTools}
+  onComplete={handleOnboardingComplete}
+/>
     );
   }
 
@@ -91,8 +107,9 @@ export default function MarketplaceView({ currentUser }) {
 
   // Show role selection
   return (
-    <MarketplaceRoleSelection
-      onSelectRole={handleRoleSelection}
-    />
-  );
+  <MarketplaceRoleSelection
+    onSelectRole={handleRoleSelection}
+    onBack={handleBackToAllTools}
+  />
+);
 }

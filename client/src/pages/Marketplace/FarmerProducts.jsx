@@ -4,6 +4,7 @@ import {
   getAllProducts,
   saveAllProducts
 } from './marketplaceStorage.js';
+import './FarmerProducts.css';
 
 const PRODUCT_CATEGORIES = [
   'Vegetables',
@@ -16,40 +17,45 @@ const PRODUCT_CATEGORIES = [
 ];
 
 export default function FarmerProducts({ profile }) {
-  const storageKey = `agrosphere_marketplace_products_${profile?.email?.trim().toLowerCase() || 'guest'}`;
+  const farmerEmail =
+    profile?.email?.trim().toLowerCase() || 'guest';
 
-const [products, setProducts] = useState(() => {
-  try {
-    const ownProducts = JSON.parse(
-      localStorage.getItem(storageKey) || '[]'
-    );
+  const storageKey =
+    `agrosphere_marketplace_products_${farmerEmail}`;
 
-    const sharedProducts = getAllProducts();
+  const [products, setProducts] = useState(() => {
+    try {
+      const ownProducts = JSON.parse(
+        localStorage.getItem(storageKey) || '[]'
+      );
 
-    const existingIds = new Set(
-      sharedProducts.map(product => product.id)
-    );
+      const sharedProducts = getAllProducts();
 
-    const newProducts = ownProducts
-      .filter(product => !existingIds.has(product.id))
-      .map(product => ({
-        ...product,
-        farmerEmail: profile?.email?.trim().toLowerCase() || 'guest'
-      }));
+      const existingIds = new Set(
+        sharedProducts.map(product => product.id)
+      );
 
-    if (newProducts.length > 0) {
-      saveAllProducts([...sharedProducts, ...newProducts]);
+      const newProducts = ownProducts
+        .filter(product => !existingIds.has(product.id))
+        .map(product => ({
+          ...product,
+          farmerEmail
+        }));
+
+      if (newProducts.length > 0) {
+        saveAllProducts([
+          ...sharedProducts,
+          ...newProducts
+        ]);
+      }
+
+      return getAllProducts().filter(
+        product => product.farmerEmail === farmerEmail
+      );
+    } catch {
+      return [];
     }
-
-    return getAllProducts().filter(
-      product =>
-        product.farmerEmail ===
-        (profile?.email?.trim().toLowerCase() || 'guest')
-    );
-  } catch {
-    return [];
-  }
-});
+  });
 
   const [showForm, setShowForm] = useState(false);
 
@@ -73,51 +79,58 @@ const [products, setProducts] = useState(() => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setError('');
+  // Product image upload
+  const handleImageUpload = (e) => {
+    const file = e.target.files?.[0];
 
-    if (Number(formData.price) <= 0 || Number(formData.quantity) <= 0) {
-      setError('Price and quantity must be greater than zero.');
+    if (!file) return;
+
+    const allowedTypes = [
+      'image/jpeg',
+      'image/png',
+      'image/webp'
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+      setError('Please upload JPG, PNG or WEBP image.');
+      e.target.value = '';
       return;
     }
 
-    const newProduct = {
-      id: crypto.randomUUID(),
-      ...formData,
-      price: Number(formData.price),
-      quantity: Number(formData.quantity),
-      farmerName: profile?.fullName || 'Marketplace Farmer',
-      location: profile?.location || '',
-      createdAt: new Date().toISOString()
+    if (file.size > 2 * 1024 * 1024) {
+      setError('Image size must be less than 2 MB.');
+      e.target.value = '';
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setFormData(prev => ({
+        ...prev,
+        imageUrl: reader.result
+      }));
+
+      setError('');
     };
 
-const productWithOwner = {
-  ...newProduct,
-  farmerEmail: profile?.email?.trim().toLowerCase() || 'guest'
-};
+    reader.onerror = () => {
+      setError('Unable to read image. Please try again.');
+    };
 
-const sharedProducts = getAllProducts();
+    reader.readAsDataURL(file);
+  };
 
-const updatedProducts = [
-  productWithOwner,
-  ...sharedProducts
-];
+  // Remove selected image
+  const handleRemoveImage = () => {
+    setFormData(prev => ({
+      ...prev,
+      imageUrl: ''
+    }));
+  };
 
-saveAllProducts(updatedProducts);
-
-const ownProducts = [
-  productWithOwner,
-  ...products
-];
-
-localStorage.setItem(
-  storageKey,
-  JSON.stringify(ownProducts)
-);
-
-setProducts(ownProducts);
-
+  // Reset form
+  const resetForm = () => {
     setFormData({
       name: '',
       category: '',
@@ -127,66 +140,146 @@ setProducts(ownProducts);
       imageUrl: ''
     });
 
+    setError('');
+  };
+
+  // Save product
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setError('');
+
+    if (
+      Number(formData.price) <= 0 ||
+      Number(formData.quantity) <= 0
+    ) {
+      setError(
+        'Price and quantity must be greater than zero.'
+      );
+      return;
+    }
+
+    const newProduct = {
+      id: crypto.randomUUID(),
+      ...formData,
+      price: Number(formData.price),
+      quantity: Number(formData.quantity),
+      farmerName: profile?.fullName || 'Marketplace Farmer',
+      farmerEmail,
+      location: profile?.location || '',
+      createdAt: new Date().toISOString()
+    };
+
+    const sharedProducts = getAllProducts();
+
+    const updatedSharedProducts = [
+      newProduct,
+      ...sharedProducts
+    ];
+
+    saveAllProducts(updatedSharedProducts);
+
+    const updatedOwnProducts = [
+      newProduct,
+      ...products
+    ];
+
+    localStorage.setItem(
+      storageKey,
+      JSON.stringify(updatedOwnProducts)
+    );
+
+    setProducts(updatedOwnProducts);
+
+    resetForm();
     setShowForm(false);
   };
 
-const handleDelete = (id) => {
-  const updatedProducts = products.filter(
-    product => product.id !== id
-  );
+  // Delete product
+  const handleDelete = (id) => {
+    const confirmed = window.confirm(
+      'Are you sure you want to delete this product?'
+    );
 
-  const sharedProducts = getAllProducts().filter(
-    product =>
-      !(
+    if (!confirmed) return;
+
+    const updatedProducts = products.filter(
+      product => product.id !== id
+    );
+
+    const sharedProducts = getAllProducts().filter(
+      product => !(
         product.id === id &&
-        product.farmerEmail ===
-          (profile?.email?.trim().toLowerCase() || 'guest')
+        product.farmerEmail === farmerEmail
       )
-  );
+    );
 
-  saveAllProducts(sharedProducts);
+    saveAllProducts(sharedProducts);
 
-  localStorage.setItem(
-    storageKey,
-    JSON.stringify(updatedProducts)
-  );
+    localStorage.setItem(
+      storageKey,
+      JSON.stringify(updatedProducts)
+    );
 
-  setProducts(updatedProducts);
-};
+    setProducts(updatedProducts);
+  };
 
   return (
-    <section className="container py-4">
+    <section className="container py-4 farmer-products-page">
 
-      <div className="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+      {/* Page Header */}
+      <div className="farmer-products-header">
         <div>
+          <span className="farmer-products-eyebrow">
+            FARMER INVENTORY
+          </span>
+
           <h3>My Products</h3>
-          <p className="text-secondary mb-0">
+
+          <p className="mb-0">
             Manage your agricultural product listings.
           </p>
         </div>
 
         <button
           type="button"
-          className="glass-btn-submit"
-          onClick={() => setShowForm(!showForm)}
+          className="farmer-add-product-btn"
+          onClick={() => {
+            setShowForm(!showForm);
+            setError('');
+          }}
         >
           <i className="fas fa-plus me-2"></i>
           Add Product
         </button>
       </div>
 
+      {/* Add Product Form */}
       {showForm && (
         <form
           onSubmit={handleSubmit}
-          className="glass-card p-4 mb-4"
+          className="farmer-product-form"
         >
-          <h5 className="mb-3">Add New Product</h5>
+          <div className="farmer-product-form-header">
+            <h5>
+              <i className="fas fa-seedling me-2"></i>
+              Add New Product
+            </h5>
+
+            <p>
+              Provide product details to list your fresh
+              agricultural produce.
+            </p>
+          </div>
 
           <div className="row g-3">
 
             <div className="col-md-6">
-              <label className="form-label">Product Name *</label>
+              <label className="form-label">
+                Product Name *
+              </label>
+
               <input
+                type="text"
                 className="form-control"
                 name="name"
                 value={formData.name}
@@ -197,7 +290,10 @@ const handleDelete = (id) => {
             </div>
 
             <div className="col-md-6">
-              <label className="form-label">Category *</label>
+              <label className="form-label">
+                Category *
+              </label>
+
               <select
                 className="form-select"
                 name="category"
@@ -206,6 +302,7 @@ const handleDelete = (id) => {
                 required
               >
                 <option value="">Select category</option>
+
                 {PRODUCT_CATEGORIES.map(category => (
                   <option key={category} value={category}>
                     {category}
@@ -215,7 +312,10 @@ const handleDelete = (id) => {
             </div>
 
             <div className="col-md-6">
-              <label className="form-label">Price per KG (₹) *</label>
+              <label className="form-label">
+                Price per KG (₹) *
+              </label>
+
               <input
                 type="number"
                 min="0.01"
@@ -224,12 +324,16 @@ const handleDelete = (id) => {
                 name="price"
                 value={formData.price}
                 onChange={handleChange}
+                placeholder="Enter selling price"
                 required
               />
             </div>
 
             <div className="col-md-6">
-              <label className="form-label">Available Quantity (KG) *</label>
+              <label className="form-label">
+                Available Quantity (KG) *
+              </label>
+
               <input
                 type="number"
                 min="0.01"
@@ -238,51 +342,104 @@ const handleDelete = (id) => {
                 name="quantity"
                 value={formData.quantity}
                 onChange={handleChange}
+                placeholder="Enter available stock"
                 required
               />
             </div>
 
             <div className="col-12">
-              <label className="form-label">Description</label>
+              <label className="form-label">
+                Product Description
+              </label>
+
               <textarea
                 className="form-control"
                 name="description"
                 rows="3"
                 value={formData.description}
                 onChange={handleChange}
-                placeholder="Describe your product..."
+                placeholder="Describe quality, freshness and other details..."
               />
             </div>
 
+            {/* Image Upload */}
             <div className="col-12">
-              <label className="form-label">Product Image URL (Optional)</label>
-              <input
-                type="url"
-                className="form-control"
-                name="imageUrl"
-                value={formData.imageUrl}
-                onChange={handleChange}
-                placeholder="https://example.com/image.jpg"
-              />
+              <label className="form-label">
+                Product Image
+                <span className="text-secondary ms-2">
+                  (Optional)
+                </span>
+              </label>
+
+              {!formData.imageUrl ? (
+                <label className="farmer-image-upload">
+                  <input
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp"
+                    onChange={handleImageUpload}
+                    hidden
+                  />
+
+                  <i className="fas fa-cloud-arrow-up"></i>
+
+                  <strong>
+                    Click to upload product image
+                  </strong>
+
+                  <span>
+                    PNG, JPG or WEBP (Maximum 2 MB)
+                  </span>
+                </label>
+              ) : (
+                <div className="farmer-upload-preview">
+                  <img
+                    src={formData.imageUrl}
+                    alt="Product preview"
+                  />
+
+                  <div>
+                    <strong>Image selected</strong>
+
+                    <p className="mb-2">
+                      Your product image is ready.
+                    </p>
+
+                    <button
+                      type="button"
+                      onClick={handleRemoveImage}
+                    >
+                      <i className="fas fa-trash me-2"></i>
+                      Remove Image
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
 
           </div>
 
           {error && (
-            <p className="text-danger mt-3 mb-0">{error}</p>
+            <p className="farmer-product-error">
+              <i className="fas fa-circle-exclamation me-2"></i>
+              {error}
+            </p>
           )}
 
-          <div className="d-flex gap-2 mt-4">
-            <button type="submit" className="glass-btn-submit">
+          <div className="farmer-product-form-actions">
+            <button
+              type="submit"
+              className="farmer-save-product-btn"
+            >
+              <i className="fas fa-check me-2"></i>
               Save Product
             </button>
 
             <button
               type="button"
-              className="btn-dark-glass-secondary"
+              className="farmer-cancel-product-btn"
               onClick={() => {
                 setShowForm(false);
-                setError('');
+                resetForm();
               }}
             >
               Cancel
@@ -291,70 +448,127 @@ const handleDelete = (id) => {
         </form>
       )}
 
+      {/* Product Listings */}
       <div className="row g-4">
+
         {products.length === 0 ? (
           <div className="col-12">
-            <div className="glass-card p-5 text-center">
-              <i className="fas fa-box-open fa-3x mb-3"></i>
+            <div className="farmer-products-empty">
+              <i className="fas fa-box-open"></i>
+
               <h5>No Products Listed Yet</h5>
-              <p className="text-secondary mb-0">
+
+              <p>
                 Add your first agricultural product to get started.
               </p>
+
+              <button
+                type="button"
+                className="farmer-add-product-btn"
+                onClick={() => setShowForm(true)}
+              >
+                <i className="fas fa-plus me-2"></i>
+                Add Your First Product
+              </button>
             </div>
           </div>
         ) : (
           products.map(product => (
-            <div className="col-lg-4 col-md-6" key={product.id}>
-              <div className="glass-card h-100 p-3">
+            <div
+              className="col-lg-4 col-md-6"
+              key={product.id}
+            >
+              <article className="farmer-product-card">
 
-                {product.imageUrl && (
-                  <img
-                    src={product.imageUrl}
-                    alt={product.name}
-                    style={{
-                      width: '100%',
-                      height: '180px',
-                      objectFit: 'cover',
-                      borderRadius: '12px'
-                    }}
-                  />
+                {/* Product Image */}
+                {product.imageUrl ? (
+                  <div className="farmer-product-image-wrapper">
+                    <img
+                      src={product.imageUrl}
+                      alt={product.name}
+                      className="farmer-product-card-image"
+                    />
+                  </div>
+                ) : (
+                  <div className="farmer-product-image-placeholder">
+                    <i className="fas fa-seedling"></i>
+                    <span>No product image</span>
+                  </div>
                 )}
 
-                <div className="mt-3">
-                  <span className="badge bg-success mb-2">
-                    {product.category}
-                  </span>
+                {/* Product Information */}
+                <div className="farmer-product-card-content">
+
+                  <div className="farmer-product-card-top">
+                    <span className="farmer-product-category">
+                      {product.category}
+                    </span>
+
+                    <span className="farmer-product-stock">
+                      <i className="fas fa-circle"></i>
+                      Available
+                    </span>
+                  </div>
 
                   <h5>{product.name}</h5>
 
-                  <p className="text-secondary">
-                    {product.description || 'No description provided.'}
+                  <p className="farmer-product-description">
+                    {product.description ||
+                      'No description provided.'}
                   </p>
 
-                  <h5>₹{product.price} / KG</h5>
+                  {/* Price and Quantity */}
+                  <div className="farmer-product-price-row">
 
-                  <p className="mb-2">
-                    Available: {product.quantity} KG
-                  </p>
+                    <div>
+                      <span className="farmer-product-info-label">
+                        Selling Price
+                      </span>
 
-                  <p className="text-secondary small">
-                    {product.location}
-                  </p>
+                      <h4 className="farmer-product-price">
+                        ₹{Number(product.price).toLocaleString('en-IN')}
+                        <small> / KG</small>
+                      </h4>
+                    </div>
 
+                    <div className="farmer-product-stock-info">
+                      <span className="farmer-product-info-label">
+                        Available Stock
+                      </span>
+
+                      <h6 className="farmer-product-quantity">
+                        {product.quantity} KG
+                      </h6>
+                    </div>
+
+                  </div>
+
+                  {/* Location */}
+                  <div className="farmer-product-location">
+                    <i className="fas fa-location-dot"></i>
+
+                    <span>
+                      {product.location ||
+                        'Location not specified'}
+                    </span>
+                  </div>
+
+                  {/* Delete */}
                   <button
                     type="button"
-                    className="btn btn-outline-danger btn-sm"
+                    className="farmer-product-delete-btn"
                     onClick={() => handleDelete(product.id)}
                   >
-                    <i className="fas fa-trash me-1"></i>
-                    Delete
+                    <i className="fas fa-trash me-2"></i>
+                    Delete Product
                   </button>
-                </div>
 
-              </div>
+                </div>
+              </article>
             </div>
           ))
         )}
+
       </div>
 
     </section>

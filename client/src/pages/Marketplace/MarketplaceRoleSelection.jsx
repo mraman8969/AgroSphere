@@ -1,4 +1,6 @@
+
 import React from 'react';
+import './MarketplaceRoleSelection.css';
 
 const MARKETPLACE_ROLES = [
   {
@@ -24,13 +26,42 @@ const MARKETPLACE_ROLES = [
   }
 ];
 
-export default function MarketplaceRoleSelection({ onSelectRole }) {
+export default function MarketplaceRoleSelection({
+  onSelectRole,
+  onBack
+}) {
   return (
     <main
       className="marketplace-role-selection"
       style={{ padding: '30px 0 80px' }}
     >
       <div className="container">
+
+        {/* Back to All Tools */}
+        <div style={{ marginBottom: '28px' }}>
+          <button
+            type="button"
+            onClick={() => onBack?.()}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '9px',
+              padding: '10px 16px',
+              borderRadius: '10px',
+              border: '1px solid var(--border-color)',
+              background: 'var(--bg-glass-card)',
+              color: 'var(--text-primary)',
+              fontSize: '14px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'all 0.25s ease'
+            }}
+          >
+            <i className="fas fa-arrow-left"></i>
+            Back to All Tools
+          </button>
+        </div>
+
         <div className="tools-page-header">
           <div className="tools-title-badge">
             <i className="fas fa-store"></i>
