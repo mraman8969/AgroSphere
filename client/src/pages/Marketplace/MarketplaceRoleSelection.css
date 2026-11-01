@@ -1,0 +1,174 @@
+
+/* ==========================================
+   MARKETPLACE ROLE SELECTION
+   Responsive Layout - Navigation Untouched
+========================================== */
+
+.marketplace-role-selection {
+  display: block;
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  flex: 1 1 100%;
+  align-self: stretch;
+  padding: 30px 0 80px;
+  overflow-x: clip;
+  box-sizing: border-box;
+}
+
+.marketplace-role-selection *,
+.marketplace-role-selection *::before,
+.marketplace-role-selection *::after {
+  box-sizing: border-box;
+}
+
+.marketplace-role-selection > .container {
+  width: 100%;
+  max-width: 1200px;
+  min-width: 0;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* Header */
+.marketplace-role-selection .tools-page-header {
+  width: 100%;
+  max-width: 100%;
+  text-align: center;
+  min-width: 0;
+}
+
+.marketplace-role-selection .tools-title-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+}
+
+.marketplace-role-selection .stitle {
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+.marketplace-role-selection .sdesc {
+  width: 100%;
+  max-width: 640px;
+  padding: 0 10px;
+  line-height: 1.7;
+}
+
+/* Role Cards Grid */
+.marketplace-role-selection .row {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.marketplace-role-selection .row > * {
+  min-width: 0;
+}
+
+.marketplace-role-selection .glass-card {
+  width: 100%;
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.marketplace-role-selection .glass-card h4 {
+  overflow-wrap: break-word;
+}
+
+.marketplace-role-selection .glass-card p {
+  overflow-wrap: break-word;
+}
+
+.marketplace-role-selection .glass-card button {
+  max-width: 100%;
+  white-space: normal;
+}
+
+/* Tablet */
+@media (max-width: 991px) {
+  .marketplace-role-selection {
+    padding: 24px 0 55px !important;
+  }
+
+  .marketplace-role-selection .container {
+    max-width: 100%;
+  }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .marketplace-role-selection {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding: 18px 0 40px !important;
+  }
+
+  .marketplace-role-selection > .container {
+    width: 100%;
+    max-width: 100%;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .marketplace-role-selection .tools-page-header {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .marketplace-role-selection .stitle {
+    font-size: clamp(24px, 7vw, 32px);
+  }
+
+  .marketplace-role-selection .sdesc {
+    font-size: 12px;
+  }
+
+  .marketplace-role-selection .row {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 20px !important;
+    row-gap: 18px;
+  }
+
+  .marketplace-role-selection .row > [class*="col-"] {
+    width: 100%;
+    max-width: 100%;
+    flex: 0 0 100%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .marketplace-role-selection .glass-card {
+    height: auto !important;
+    padding: 22px 18px !important;
+    border-radius: 15px !important;
+  }
+
+  .marketplace-role-selection .glass-card p {
+    min-height: auto !important;
+    margin-bottom: 18px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 380px) {
+  .marketplace-role-selection > .container {
+    padding-left: 11px;
+    padding-right: 11px;
+  }
+
+  .marketplace-role-selection .glass-card {
+    padding: 19px 14px !important;
+  }
+
+  .marketplace-role-selection .glass-card button {
+    font-size: 12px;
+  }
+}
