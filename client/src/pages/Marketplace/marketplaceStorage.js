@@ -67,3 +67,61 @@ export const saveUserCart = (userKey, cart) => {
     JSON.stringify(carts)
   );
 };
+
+
+// Update individual farmer's order items
+export const updateFarmerOrderStatus = (orderId, farmerEmail, newStatus) => {
+  const allowedStatuses = ['Accepted', 'Rejected', 'Delivered'];
+
+  if (!allowedStatuses.includes(newStatus)) {
+    throw new Error('Invalid order status');
+  }
+
+  const orders = getAllOrders();
+
+  const updatedOrders = orders.map((order) => {
+    if (order.id !== orderId) {
+      return order;
+    }
+
+    const updatedItems = (order.items || []).map((item) => {
+      const isSameFarmer =
+        item.farmerEmail?.trim().toLowerCase() ===
+        farmerEmail?.trim().toLowerCase();
+
+      // Only update this farmer's pending items
+      if (isSameFarmer && item.status === 'Pending') {
+        return {
+          ...item,
+          status: newStatus,
+        };
+      }
+
+      return item;
+    });
+
+    const statuses = updatedItems.map((item) => item.status || 'Pending');
+
+    let overallStatus = 'Pending';
+
+    if (statuses.length > 0 && statuses.every((s) => s === 'Delivered')) {
+      overallStatus = 'Delivered';
+    } else if (statuses.every((s) => s === 'Accepted')) {
+      overallStatus = 'Accepted';
+    } else if (statuses.every((s) => s === 'Rejected')) {
+      overallStatus = 'Rejected';
+    } else if (statuses.some((s) => s !== 'Pending')) {
+      overallStatus = 'Partially Accepted';
+    }
+
+    return {
+      ...order,
+      items: updatedItems,
+      status: overallStatus,
+    };
+  });
+
+  saveAllOrders(updatedOrders);
+
+  return updatedOrders;
+};

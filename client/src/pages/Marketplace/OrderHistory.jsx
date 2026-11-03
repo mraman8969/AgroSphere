@@ -1,6 +1,9 @@
 
 import React, { useMemo, useState } from 'react';
-import { getAllOrders } from './marketplaceStorage';
+import {
+  getAllOrders,
+  updateFarmerOrderStatus
+} from './marketplaceStorage';
 
 const normalizeStatus = (status) =>
   String(status || 'Pending').toLowerCase().replace(/[_-]/g, ' ');
@@ -62,12 +65,11 @@ export default function OrderHistory({ role, profile, onBack }) {
   const [statusFilter, setStatusFilter] = useState('all');
   const [dateFilter, setDateFilter] = useState('all');
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [allOrders, setAllOrders] = useState(() => getAllOrders());
 
   const userKey =
     profile?.email?.trim().toLowerCase() || 'guest';
 
-  // Load orders from shared marketplace storage.
-  const allOrders = useMemo(() => getAllOrders(), []);
 
   // Filter orders according to logged-in role.
   const orders = useMemo(() => {
@@ -154,6 +156,24 @@ export default function OrderHistory({ role, profile, onBack }) {
     0
   );
 
+  const handleFarmerStatusUpdate = (orderId, newStatus) => {
+  const updatedOrders = updateFarmerOrderStatus(
+    orderId,
+    userKey,
+    newStatus
+  );
+
+  setAllOrders(updatedOrders);
+
+  const updatedSelectedOrder = updatedOrders.find(
+    (order) => order.id === orderId
+  );
+
+  if (updatedSelectedOrder) {
+    setSelectedOrder(updatedSelectedOrder);
+  }
+};
+
   const handleBack = () => {
     setSelectedOrder(null);
 
@@ -232,6 +252,36 @@ export default function OrderHistory({ role, profile, onBack }) {
                       <small className="text-muted">
                         Item Status: {item.status || selectedOrder.status || 'Pending'}
                       </small>
+
+                      <small className="text-muted">
+  Item Status: {item.status || selectedOrder.status || 'Pending'}
+</small>
+
+{role === 'farmer' &&
+  item.farmerEmail?.trim().toLowerCase() === userKey &&
+  (item.status || 'Pending') === 'Pending' && (
+    <div className="d-flex gap-2 mt-2">
+      <button
+        type="button"
+        className="btn btn-sm btn-success"
+        onClick={() =>
+          handleFarmerStatusUpdate(selectedOrder.id, 'Accepted')
+        }
+      >
+        Accept
+      </button>
+
+      <button
+        type="button"
+        className="btn btn-sm btn-danger"
+        onClick={() =>
+          handleFarmerStatusUpdate(selectedOrder.id, 'Rejected')
+        }
+      >
+        Reject
+      </button>
+    </div>
+  )}
                     </div>
 
                     <strong>

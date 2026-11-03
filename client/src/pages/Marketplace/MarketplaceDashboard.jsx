@@ -6,8 +6,19 @@ import BuyerProducts from './BuyerProducts';
 import BuyerCart from './BuyerCart';
 import Checkout from './Checkout';
 import OrderHistory from './OrderHistory';
+import SalesEarnings from './SalesEarnings';
+import Inventory from './Inventory';
+import TrackDeliveries from './TrackDeliveries';
+import ManageReturns from './ManageReturns';
+import PurchaseRequests from './PurchaseRequests';
+import CustomerEnquiries from './CustomerEnquiries';
+import Notifications from './Notifications';
+import PriceAnalytics from './PriceAnalytics';
 
-import { getUserCart } from './marketplaceStorage';
+import {
+  getUserCart,
+  getAllOrders
+} from './marketplaceStorage';
 
 import './MarketplaceDashboard.css';
 
@@ -322,14 +333,7 @@ const DASHBOARD_CONFIG = {
 
 const PLACEHOLDER_MODULES = [
   // Farmer
-  'Inventory',
-  'Sales & Earnings',
-  'Track Deliveries',
-  'Manage Returns',
-  'Price Analytics',
-  'Customer Enquiries',
-  'Notifications',
-  'Purchase Requests',
+  //All modules for farmers are implemented, so no placeholders here.
 
   // Buyer
   'Track Orders',
@@ -373,6 +377,32 @@ export default function MarketplaceDashboard({
 
   const userKey =
     profile?.email?.trim().toLowerCase() || 'guest';
+
+  const recentOrders = getAllOrders()
+  .filter((order) => {
+    if (role === 'buyer') {
+      return order.buyerKey?.trim().toLowerCase() === userKey;
+    }
+
+    if (role === 'farmer') {
+      return order.items?.some(
+        (item) =>
+          item.farmerEmail?.trim().toLowerCase() === userKey
+      );
+    }
+
+    if (role === 'logistics') {
+      return order.status?.toLowerCase() === 'delivered';
+    }
+
+    return false;
+  })
+  .sort(
+    (a, b) =>
+      new Date(b.createdAt || 0) -
+      new Date(a.createdAt || 0)
+  )
+  .slice(0, 5);
 
   // Combine all role-specific modules
   const allModules = config
@@ -562,7 +592,196 @@ export default function MarketplaceDashboard({
       />
     );
   }
+  
+  
+  // ==========================================
+  // FARMER - SALES & EARNINGS
+  // ==========================================
 
+  if (
+    role === 'farmer' &&
+    activeModule === 'Sales & Earnings'
+  ) {
+    return (
+      <main className="marketplace-dashboard">
+        <div className="container py-4">
+
+          <button
+            type="button"
+            className="btn-dark-glass-secondary mb-4"
+            onClick={goToDashboard}
+          >
+            <i className="fas fa-arrow-left me-2"></i>
+            Back to Dashboard
+          </button>
+
+          <SalesEarnings userKey={userKey} />
+
+        </div>
+      </main>
+    );
+  }
+
+  // FARMER - INVENTORY MANAGEMENT
+if (
+  role === 'farmer' &&
+  activeModule === 'Inventory'
+) {
+  return (
+    <main className="marketplace-dashboard">
+      <div className="container py-4">
+        <button
+          type="button"
+          className="btn-dark-glass-secondary mb-4"
+          onClick={goToDashboard}
+        >
+          <i className="fas fa-arrow-left me-2"></i>
+          Back to Dashboard
+        </button>
+
+        <Inventory profile={profile} />
+      </div>
+    </main>
+  );
+}
+
+// FARMER - TRACK DELIVERIES
+if (
+  role === 'farmer' &&
+  activeModule === 'Track Deliveries'
+) {
+  return (
+    <main className="marketplace-dashboard">
+      <div className="container py-4">
+        <button
+          type="button"
+          className="btn-dark-glass-secondary mb-4"
+          onClick={goToDashboard}
+        >
+          <i className="fas fa-arrow-left me-2"></i>
+          Back to Dashboard
+        </button>
+
+        <TrackDeliveries />
+      </div>
+    </main>
+  );
+}
+
+// FARMER - MANAGE RETURNS
+if (
+  role === 'farmer' &&
+  activeModule === 'Manage Returns'
+) {
+  return (
+    <main className="marketplace-dashboard">
+      <div className="container py-4">
+        <button
+          type="button"
+          className="btn-dark-glass-secondary mb-4"
+          onClick={goToDashboard}
+        >
+          <i className="fas fa-arrow-left me-2"></i>
+          Back to Dashboard
+        </button>
+
+        <ManageReturns />
+      </div>
+    </main>
+  );
+}
+
+// FARMER - PURCHASE REQUESTS
+if (
+  role === 'farmer' &&
+  activeModule === 'Purchase Requests'
+) {
+  return (
+    <main className="marketplace-dashboard">
+      <div className="container py-4">
+        <button
+          type="button"
+          className="btn-dark-glass-secondary mb-4"
+          onClick={goToDashboard}
+        >
+          <i className="fas fa-arrow-left me-2"></i>
+          Back to Dashboard
+        </button>
+
+        <PurchaseRequests />
+      </div>
+    </main>
+  );
+}
+
+// FARMER - CUSTOMER ENQUIRIES
+if (
+  role === 'farmer' &&
+  activeModule === 'Customer Enquiries'
+) {
+  return (
+    <main className="marketplace-dashboard">
+      <div className="container py-4">
+        <button
+          type="button"
+          className="btn-dark-glass-secondary mb-4"
+          onClick={goToDashboard}
+        >
+          <i className="fas fa-arrow-left me-2"></i>
+          Back to Dashboard
+        </button>
+
+        <CustomerEnquiries />
+      </div>
+    </main>
+  );
+}
+
+// FARMER - NOTIFICATIONS
+if (
+  role === 'farmer' &&
+  activeModule === 'Notifications'
+) {
+  return (
+    <main className="marketplace-dashboard">
+      <div className="container py-4">
+        <button
+          type="button"
+          className="btn-dark-glass-secondary mb-4"
+          onClick={goToDashboard}
+        >
+          <i className="fas fa-arrow-left me-2"></i>
+          Back to Dashboard
+        </button>
+
+        <Notifications />
+      </div>
+    </main>
+  );
+}
+
+// FARMER - PRICE ANALYTICS
+if (
+  role === 'farmer' &&
+  activeModule === 'Price Analytics'
+) {
+  return (
+    <main className="marketplace-dashboard">
+      <div className="container py-4">
+        <button
+          type="button"
+          className="btn-dark-glass-secondary mb-4"
+          onClick={goToDashboard}
+        >
+          <i className="fas fa-arrow-left me-2"></i>
+          Back to Dashboard
+        </button>
+
+        <PriceAnalytics profile={profile} />
+      </div>
+    </main>
+  );
+}
 
   // ==========================================
   // PLACEHOLDER MODULES
@@ -815,20 +1034,101 @@ export default function MarketplaceDashboard({
           </div>
 
 
-          <div className="marketplace-orders-empty">
+          
+{recentOrders.length === 0 ? (
+  <div className="marketplace-orders-empty">
+    <i className="fas fa-box-open"></i>
 
-            <i className="fas fa-box-open"></i>
+    <div>
+      <h6>No recent orders yet</h6>
+      <p className="mb-0">
+        Your recent marketplace orders will appear here.
+      </p>
+    </div>
+  </div>
+) : (
+  <div className="row g-3">
+    {recentOrders.map((order) => {
+      const visibleItems =
+        role === 'farmer'
+          ? (order.items || []).filter(
+              (item) =>
+                item.farmerEmail?.trim().toLowerCase() === userKey
+            )
+          : order.items || [];
 
-            <div>
-              <h6>No recent orders yet</h6>
+      const farmerOrderValue = visibleItems.reduce(
+        (total, item) =>
+          total +
+          Number(item.price || 0) * Number(item.quantity || 0),
+        0
+      );
 
-              <p className="mb-0">
-                Your recent orders will appear here once
-                marketplace orders are available.
-              </p>
+      return (
+        <div className="col-12" key={order.id}>
+          <div className="card shadow-sm">
+            <div className="card-body">
+
+              <div className="d-flex flex-wrap justify-content-between align-items-start gap-3">
+
+                <div>
+                  <h6 className="mb-1">
+                    {order.orderNumber || order.id}
+                  </h6>
+
+                  <small className="text-muted">
+                    {new Date(order.createdAt).toLocaleDateString('en-IN')}
+                  </small>
+                </div>
+
+                <span className="badge bg-warning text-dark">
+                  {role === 'farmer'
+                    ? visibleItems.every(
+                        (item) => item.status === 'Accepted'
+                      )
+                      ? 'Accepted'
+                      : visibleItems.every(
+                          (item) => item.status === 'Rejected'
+                        )
+                        ? 'Rejected'
+                        : 'Pending / Partial'
+                    : order.status || 'Pending'}
+                </span>
+
+              </div>
+
+              <hr />
+
+              <div>
+                <strong>Products:</strong>
+
+                <p className="mb-2">
+                  {visibleItems.map((item) => item.name).join(', ')}
+                </p>
+              </div>
+
+              {role === 'farmer' && (
+                <p className="mb-0">
+                  <strong>Order Value:</strong>{' '}
+                  ₹{farmerOrderValue.toLocaleString('en-IN')}
+                </p>
+              )}
+
+              {role === 'buyer' && (
+                <p className="mb-0">
+                  <strong>Total:</strong>{' '}
+                  ₹{Number(order.totalAmount || 0).toLocaleString('en-IN')}
+                </p>
+              )}
+
             </div>
-
           </div>
+        </div>
+      );
+    })}
+  </div>
+)}
+
 
         </section>
 

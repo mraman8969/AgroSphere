@@ -1,0 +1,459 @@
+
+/* =========================================
+   FARMER NOTIFICATIONS - LIGHT THEME
+========================================= */
+
+.farmer-notifications-page {
+  --fn-card: rgba(255, 255, 255, 0.9);
+  --fn-surface: #ffffff;
+  --fn-text: #172033;
+  --fn-muted: #68758a;
+  --fn-border: rgba(100, 116, 139, 0.2);
+  --fn-shadow: 0 12px 35px rgba(15, 23, 42, 0.06);
+
+  width: 100%;
+  padding: 10px 0 30px;
+  color: var(--fn-text);
+}
+
+.farmer-notifications-page * {
+  box-sizing: border-box;
+}
+
+/* Header */
+
+.farmer-notifications-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 25px;
+}
+
+.farmer-notifications-eyebrow {
+  display: inline-block;
+  color: #16a36a;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.6px;
+  margin-bottom: 8px;
+}
+
+.farmer-notifications-header h2 {
+  color: var(--fn-text);
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 800;
+  margin: 0 0 7px;
+}
+
+.farmer-notifications-header p {
+  color: var(--fn-muted);
+  font-size: 14px;
+  margin: 0;
+}
+
+.mark-all-notifications-btn {
+  border: 1px solid rgba(22, 163, 106, 0.3);
+  background: rgba(22, 163, 106, 0.09);
+  color: #128452;
+  border-radius: 10px;
+  padding: 11px 15px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.mark-all-notifications-btn:hover:not(:disabled) {
+  background: #16a36a;
+  color: #ffffff;
+}
+
+.mark-all-notifications-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Summary */
+
+.farmer-notification-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.farmer-notification-summary > div {
+  background: var(--fn-card);
+  border: 1px solid var(--fn-border);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: var(--fn-shadow);
+  backdrop-filter: blur(14px);
+}
+
+.farmer-notification-summary span {
+  display: block;
+  color: var(--fn-muted);
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 9px;
+}
+
+.farmer-notification-summary h3 {
+  color: var(--fn-text);
+  font-size: 27px;
+  font-weight: 800;
+  margin: 0;
+}
+
+/* Filter Toolbar */
+
+.farmer-notifications-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-bottom: 17px;
+}
+
+.farmer-notifications-toolbar button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 15px;
+  border: 1px solid var(--fn-border);
+  border-radius: 9px;
+  background: var(--fn-card);
+  color: var(--fn-muted);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.farmer-notifications-toolbar button:hover,
+.farmer-notifications-toolbar button.active {
+  background: rgba(22, 163, 106, 0.11);
+  color: #128452;
+  border-color: rgba(22, 163, 106, 0.3);
+}
+
+.farmer-notifications-toolbar button span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 19px;
+  height: 19px;
+  padding: 0 5px;
+  border-radius: 20px;
+  background: #16a36a;
+  color: #ffffff;
+  font-size: 10px;
+}
+
+/* Notification List */
+
+.farmer-notifications-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.farmer-notification-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 18px;
+  background: var(--fn-card);
+  border: 1px solid var(--fn-border);
+  border-radius: 15px;
+  box-shadow: var(--fn-shadow);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.farmer-notification-card:hover {
+  transform: translateY(-2px);
+}
+
+.farmer-notification-card.unread {
+  border-left: 3px solid #16a36a;
+}
+
+.farmer-notification-card.read {
+  opacity: 0.82;
+}
+
+/* Notification Icons */
+
+.farmer-notification-icon {
+  width: 43px;
+  height: 43px;
+  flex: 0 0 43px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  font-size: 17px;
+}
+
+.farmer-notification-icon.order {
+  background: rgba(59, 130, 246, 0.12);
+  color: #3b82f6;
+}
+
+.farmer-notification-icon.purchase {
+  background: rgba(22, 163, 106, 0.12);
+  color: #16a36a;
+}
+
+.farmer-notification-icon.delivery {
+  background: rgba(139, 92, 246, 0.12);
+  color: #8b5cf6;
+}
+
+.farmer-notification-icon.enquiry {
+  background: rgba(245, 158, 11, 0.13);
+  color: #d97706;
+}
+
+.farmer-notification-icon.system {
+  background: rgba(100, 116, 139, 0.13);
+  color: #64748b;
+}
+
+/* Content */
+
+.farmer-notification-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.farmer-notification-title-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 6px;
+}
+
+.farmer-notification-title-row h4 {
+  color: var(--fn-text);
+  font-size: 14px;
+  font-weight: 800;
+  margin: 0;
+}
+
+.farmer-notification-dot {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 7px;
+  border-radius: 50%;
+  background: #16a36a;
+}
+
+.farmer-notification-content > p {
+  color: var(--fn-muted);
+  font-size: 13px;
+  line-height: 1.55;
+  margin: 0 0 12px;
+}
+
+.farmer-notification-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  color: var(--fn-muted);
+  font-size: 11px;
+}
+
+.farmer-notification-meta i {
+  color: #16a36a;
+}
+
+/* Actions */
+
+.farmer-notification-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.farmer-notification-actions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 33px;
+  height: 33px;
+  border: 1px solid var(--fn-border);
+  border-radius: 8px;
+  background: transparent;
+  color: #16a36a;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.farmer-notification-actions button:hover {
+  background: rgba(22, 163, 106, 0.12);
+}
+
+.farmer-notification-actions .delete-notification-btn {
+  color: #dc4545;
+}
+
+.farmer-notification-actions .delete-notification-btn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* Empty State */
+
+.farmer-notifications-empty {
+  padding: 55px 20px;
+  text-align: center;
+  background: var(--fn-card);
+  border: 1px dashed var(--fn-border);
+  border-radius: 16px;
+}
+
+.farmer-notifications-empty > i {
+  color: var(--fn-muted);
+  font-size: 35px;
+  margin-bottom: 15px;
+}
+
+.farmer-notifications-empty h3 {
+  color: var(--fn-text);
+  font-size: 17px;
+  font-weight: 800;
+  margin: 0 0 7px;
+}
+
+.farmer-notifications-empty p {
+  color: var(--fn-muted);
+  font-size: 13px;
+  margin: 0;
+}
+
+/* =========================================
+   DARK THEME
+========================================= */
+
+[data-bs-theme="dark"] .farmer-notifications-page {
+  --fn-card: rgba(22, 33, 49, 0.88);
+  --fn-surface: #172335;
+  --fn-text: #edf3fa;
+  --fn-muted: #a0aec0;
+  --fn-border: rgba(148, 163, 184, 0.17);
+  --fn-shadow: 0 12px 35px rgba(0, 0, 0, 0.18);
+}
+
+[data-bs-theme="dark"] .mark-all-notifications-btn {
+  color: #4ade80;
+}
+
+[data-bs-theme="dark"] .mark-all-notifications-btn:hover:not(:disabled) {
+  color: #ffffff;
+}
+
+[data-bs-theme="dark"] .farmer-notifications-toolbar button.active,
+[data-bs-theme="dark"] .farmer-notifications-toolbar button:hover {
+  color: #4ade80;
+}
+
+[data-bs-theme="dark"] .farmer-notification-icon.order {
+  color: #60a5fa;
+}
+
+[data-bs-theme="dark"] .farmer-notification-icon.purchase {
+  color: #4ade80;
+}
+
+[data-bs-theme="dark"] .farmer-notification-icon.delivery {
+  color: #a78bfa;
+}
+
+[data-bs-theme="dark"] .farmer-notification-icon.enquiry {
+  color: #fbbf24;
+}
+
+[data-bs-theme="dark"] .farmer-notification-icon.system {
+  color: #cbd5e1;
+}
+
+[data-bs-theme="dark"] .farmer-notification-actions button {
+  color: #4ade80;
+}
+
+[data-bs-theme="dark"] .farmer-notification-actions .delete-notification-btn {
+  color: #f87171;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+  .farmer-notifications-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .farmer-notification-card {
+    gap: 12px;
+    padding: 15px;
+  }
+
+  .farmer-notification-summary > div {
+    padding: 16px;
+  }
+
+  .farmer-notification-summary h3 {
+    font-size: 24px;
+  }
+
+  .farmer-notification-meta {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .farmer-notification-summary {
+    gap: 10px;
+  }
+
+  .farmer-notification-summary > div {
+    padding: 13px;
+  }
+
+  .farmer-notification-summary span {
+    font-size: 11px;
+  }
+
+  .farmer-notification-summary h3 {
+    font-size: 21px;
+  }
+
+  .farmer-notification-card {
+    flex-wrap: wrap;
+  }
+
+  .farmer-notification-icon {
+    width: 38px;
+    height: 38px;
+    flex-basis: 38px;
+    font-size: 15px;
+  }
+
+  .farmer-notification-content {
+    flex-basis: calc(100% - 55px);
+  }
+
+  .farmer-notification-actions {
+    margin-left: auto;
+  }
+
+  .mark-all-notifications-btn {
+    width: 100%;
+  }
+}
