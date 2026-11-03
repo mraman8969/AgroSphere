@@ -1,0 +1,245 @@
+
+.price-analytics-page {
+  --pa-bg: #ffffff;
+  --pa-card: #ffffff;
+  --pa-text: #172033;
+  --pa-muted: #687386;
+  --pa-border: #e5eaf0;
+  --pa-accent: #16845b;
+  --pa-accent-soft: #e8f6ef;
+  --pa-shadow: 0 8px 28px rgba(20, 40, 30, 0.06);
+
+  color: var(--pa-text);
+  width: 100%;
+}
+
+[data-bs-theme="dark"] .price-analytics-page {
+  --pa-bg: #111827;
+  --pa-card: #1b2535;
+  --pa-text: #f1f5f9;
+  --pa-muted: #a1adbd;
+  --pa-border: #344155;
+  --pa-accent: #45c58c;
+  --pa-accent-soft: rgba(69, 197, 140, 0.13);
+  --pa-shadow: 0 8px 28px rgba(0, 0, 0, 0.16);
+}
+
+.price-analytics-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 26px;
+}
+
+.price-analytics-eyebrow {
+  color: var(--pa-accent);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.price-analytics-header h2 {
+  color: var(--pa-text);
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 800;
+  margin: 7px 0;
+}
+
+.price-analytics-header p,
+.price-analytics-panel-header p {
+  color: var(--pa-muted);
+  font-size: 14px;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.price-analytics-header select {
+  background: var(--pa-card);
+  color: var(--pa-text);
+  border: 1px solid var(--pa-border);
+  border-radius: 10px;
+  padding: 11px 14px;
+  outline: none;
+  min-width: 145px;
+}
+
+.price-analytics-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.price-analytics-stat {
+  background: var(--pa-card);
+  border: 1px solid var(--pa-border);
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: var(--pa-shadow);
+  min-width: 0;
+}
+
+.price-analytics-stat span {
+  display: block;
+  color: var(--pa-muted);
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.price-analytics-stat strong {
+  display: block;
+  color: var(--pa-text);
+  font-size: clamp(20px, 2vw, 27px);
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.price-analytics-panel {
+  background: var(--pa-card);
+  border: 1px solid var(--pa-border);
+  border-radius: 16px;
+  box-shadow: var(--pa-shadow);
+  overflow: hidden;
+}
+
+.price-analytics-panel-header {
+  padding: 22px 24px;
+  border-bottom: 1px solid var(--pa-border);
+}
+
+.price-analytics-panel-header h3 {
+  color: var(--pa-text);
+  font-size: 18px;
+  font-weight: 750;
+  margin: 0 0 6px;
+}
+
+.price-analytics-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 720px;
+}
+
+.price-analytics-table th {
+  background: var(--pa-bg);
+  color: var(--pa-muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 15px 20px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.price-analytics-table td {
+  color: var(--pa-text);
+  font-size: 13px;
+  padding: 17px 20px;
+  border-top: 1px solid var(--pa-border);
+  vertical-align: middle;
+}
+
+.price-analytics-table td strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.price-analytics-table td small {
+  display: block;
+  color: var(--pa-muted);
+  font-size: 11px;
+  margin-top: 4px;
+}
+
+.price-status {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.price-status.above {
+  color: #b7791f;
+  background: rgba(217, 160, 55, 0.13);
+}
+
+.price-status.below {
+  color: #16845b;
+  background: var(--pa-accent-soft);
+}
+
+.price-status.neutral {
+  color: var(--pa-muted);
+  background: var(--pa-bg);
+  border: 1px solid var(--pa-border);
+}
+
+.price-analytics-empty {
+  text-align: center;
+  padding: 55px 20px;
+}
+
+.price-analytics-empty h4 {
+  color: var(--pa-text);
+  font-size: 17px;
+  font-weight: 750;
+}
+
+.price-analytics-empty p {
+  color: var(--pa-muted);
+  font-size: 13px;
+  margin: 8px 0 0;
+}
+
+.price-analytics-note {
+  background: var(--pa-accent-soft);
+  color: var(--pa-text);
+  border: 1px solid var(--pa-border);
+  border-radius: 12px;
+  padding: 15px 18px;
+  margin-top: 20px;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.price-analytics-note strong {
+  color: var(--pa-accent);
+}
+
+.price-analytics-note code {
+  color: var(--pa-accent);
+}
+
+@media (max-width: 992px) {
+  .price-analytics-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 576px) {
+  .price-analytics-header {
+    flex-direction: column;
+  }
+
+  .price-analytics-header select {
+    width: 100%;
+  }
+
+  .price-analytics-stats {
+    gap: 10px;
+  }
+
+  .price-analytics-stat {
+    padding: 15px;
+  }
+
+  .price-analytics-panel-header {
+    padding: 18px;
+  }
+}
