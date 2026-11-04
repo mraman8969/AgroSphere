@@ -1,0 +1,307 @@
+
+.saved-addresses-page {
+  min-height: 100vh;
+  padding: 32px;
+  color: var(--text-primary, #f4f6f8);
+  background: var(--bg-primary, #101820);
+}
+
+.saved-addresses-header {
+  margin-bottom: 30px;
+}
+
+.saved-addresses-back {
+  display: block;
+  margin-bottom: 24px;
+  padding: 10px 16px;
+  border: 1px solid var(--border-color, #344454);
+  border-radius: 10px;
+  background: var(--card-bg, #192631);
+  color: var(--text-primary, #f4f6f8);
+  cursor: pointer;
+}
+
+.saved-addresses-eyebrow {
+  color: #39b86b;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.saved-addresses-header h1 {
+  margin: 8px 0;
+  font-size: clamp(26px, 4vw, 36px);
+}
+
+.saved-addresses-header p,
+.address-form-card > p,
+.address-list-heading p {
+  margin: 0;
+  color: var(--text-secondary, #aab7c4);
+}
+
+.saved-addresses-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.address-form-card,
+.address-list-card {
+  min-width: 0;
+  padding: 24px;
+  border: 1px solid var(--border-color, #344454);
+  border-radius: 18px;
+  background: var(--card-bg, #192631);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+}
+
+.address-form-card h2,
+.address-list-card h2 {
+  margin: 0 0 8px;
+  font-size: 20px;
+}
+
+.address-form-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.address-form-card label {
+  display: block;
+  margin-top: 5px;
+  color: var(--text-primary, #f4f6f8);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.address-form-card input,
+.address-form-card select,
+.address-form-card textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 1px solid var(--border-color, #40515f);
+  border-radius: 10px;
+  background: var(--input-bg, #111d27);
+  color: var(--text-primary, #f4f6f8);
+  font: inherit;
+  outline: none;
+}
+
+.address-form-card input:focus,
+.address-form-card select:focus,
+.address-form-card textarea:focus {
+  border-color: #39b86b;
+  box-shadow: 0 0 0 3px rgba(57, 184, 107, 0.12);
+}
+
+.address-form-card textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.address-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.address-form-row > div {
+  min-width: 0;
+}
+
+.address-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.address-save-btn,
+.address-cancel-btn {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.address-save-btn {
+  flex: 1;
+  background: #239b55;
+  color: #fff;
+}
+
+.address-save-btn:hover {
+  background: #1c8046;
+}
+
+.address-cancel-btn {
+  background: var(--input-bg, #111d27);
+  border: 1px solid var(--border-color, #40515f);
+  color: var(--text-primary, #f4f6f8);
+}
+
+.address-message {
+  padding: 11px 13px;
+  border-radius: 9px;
+  background: rgba(57, 184, 107, 0.12);
+  color: #39b86b;
+  font-size: 13px;
+}
+
+.address-list-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.address-list-heading > span {
+  padding: 7px 11px;
+  border-radius: 20px;
+  background: rgba(57, 184, 107, 0.12);
+  color: #39b86b;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.address-empty {
+  padding: 55px 15px;
+  text-align: center;
+  color: var(--text-secondary, #aab7c4);
+}
+
+.address-empty > span {
+  font-size: 36px;
+}
+
+.address-empty h3 {
+  margin: 12px 0 6px;
+  color: var(--text-primary, #f4f6f8);
+}
+
+.address-empty p {
+  margin: 0;
+  font-size: 13px;
+}
+
+.address-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.address-item {
+  padding: 18px;
+  border: 1px solid var(--border-color, #344454);
+  border-radius: 13px;
+  background: var(--input-bg, #111d27);
+}
+
+.address-item-heading {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.address-type {
+  color: #39b86b;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.address-default {
+  margin-left: 9px;
+  padding: 4px 8px;
+  border-radius: 20px;
+  background: rgba(57, 184, 107, 0.12);
+  color: #39b86b;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.address-item h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+
+.address-item p {
+  margin: 5px 0;
+  color: var(--text-secondary, #aab7c4);
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.address-item small {
+  display: block;
+  margin-top: 8px;
+  color: var(--text-secondary, #aab7c4);
+  font-size: 12px;
+}
+
+.address-item-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 17px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-color, #344454);
+}
+
+.address-item-actions button {
+  padding: 8px 12px;
+  border: 1px solid var(--border-color, #40515f);
+  border-radius: 8px;
+  background: var(--card-bg, #192631);
+  color: var(--text-primary, #f4f6f8);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.address-item-actions button:hover {
+  border-color: #39b86b;
+  color: #39b86b;
+}
+
+.address-item-actions .address-delete-btn {
+  color: #ef7777;
+}
+
+.address-item-actions .address-delete-btn:hover {
+  border-color: #ef7777;
+  color: #ef7777;
+}
+
+@media (max-width: 900px) {
+  .saved-addresses-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .saved-addresses-page {
+    padding: 18px 14px;
+  }
+
+  .address-form-card,
+  .address-list-card {
+    padding: 18px;
+  }
+
+  .address-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .address-list-heading {
+    flex-direction: column;
+  }
+}

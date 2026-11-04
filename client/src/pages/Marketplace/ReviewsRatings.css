@@ -1,0 +1,330 @@
+
+.reviews-page {
+  min-height: 100vh;
+  padding: 32px;
+  color: var(--text-primary, #f4f6f8);
+  background: var(--bg-primary, #101820);
+}
+
+.reviews-header {
+  margin-bottom: 28px;
+}
+
+.reviews-back {
+  display: block;
+  margin-bottom: 24px;
+  padding: 10px 16px;
+  border: 1px solid var(--border-color, #344454);
+  border-radius: 10px;
+  background: var(--card-bg, #192631);
+  color: var(--text-primary, #f4f6f8);
+  cursor: pointer;
+}
+
+.reviews-eyebrow {
+  color: #39b86b;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.reviews-header h1 {
+  margin: 8px 0;
+  font-size: clamp(26px, 4vw, 36px);
+}
+
+.reviews-header p,
+.review-form-card > p,
+.review-history-heading p {
+  margin: 0;
+  color: var(--text-secondary, #aab7c4);
+}
+
+.reviews-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.reviews-summary-card {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 20px;
+  border: 1px solid var(--border-color, #344454);
+  border-radius: 15px;
+  background: var(--card-bg, #192631);
+}
+
+.reviews-summary-label {
+  color: var(--text-secondary, #aab7c4);
+  font-size: 13px;
+}
+
+.reviews-summary-card > strong {
+  font-size: 28px;
+}
+
+.reviews-summary-card small {
+  color: var(--text-secondary, #aab7c4);
+  font-size: 12px;
+}
+
+.summary-star {
+  color: #e9ad3d;
+}
+
+.reviews-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.review-form-card,
+.review-history-card {
+  min-width: 0;
+  padding: 24px;
+  border: 1px solid var(--border-color, #344454);
+  border-radius: 18px;
+  background: var(--card-bg, #192631);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+}
+
+.review-form-card h2,
+.review-history-card h2 {
+  margin: 0 0 8px;
+  font-size: 20px;
+}
+
+.review-form-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.review-form-card label {
+  margin-top: 5px;
+  color: var(--text-primary, #f4f6f8);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.review-form-card input,
+.review-form-card select,
+.review-form-card textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 1px solid var(--border-color, #40515f);
+  border-radius: 10px;
+  background: var(--input-bg, #111d27);
+  color: var(--text-primary, #f4f6f8);
+  font: inherit;
+  outline: none;
+}
+
+.review-form-card input:focus,
+.review-form-card select:focus,
+.review-form-card textarea:focus {
+  border-color: #39b86b;
+  box-shadow: 0 0 0 3px rgba(57, 184, 107, 0.12);
+}
+
+.review-form-card textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.review-form-card input::placeholder,
+.review-form-card textarea::placeholder {
+  color: var(--text-secondary, #91a0ad);
+}
+
+.review-rating-options {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.review-rating-options button {
+  padding: 3px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary, #667582);
+  font-size: 27px;
+  cursor: pointer;
+}
+
+.review-rating-options button.active {
+  color: #e9ad3d;
+}
+
+.review-rating-options span {
+  margin-left: 10px;
+  color: var(--text-secondary, #aab7c4);
+  font-size: 12px;
+}
+
+.review-submit {
+  margin-top: 10px;
+  padding: 13px 18px;
+  border: none;
+  border-radius: 10px;
+  background: #239b55;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.review-submit:hover {
+  background: #1c8046;
+  transform: translateY(-1px);
+}
+
+.review-message {
+  padding: 11px 13px;
+  border-radius: 9px;
+  background: rgba(57, 184, 107, 0.12);
+  color: #39b86b;
+  font-size: 13px;
+}
+
+.review-history-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.review-history-heading > span {
+  padding: 7px 11px;
+  border-radius: 20px;
+  background: rgba(57, 184, 107, 0.12);
+  color: #39b86b;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.review-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.review-filter button {
+  padding: 8px 12px;
+  border: 1px solid var(--border-color, #40515f);
+  border-radius: 20px;
+  background: var(--input-bg, #111d27);
+  color: var(--text-secondary, #aab7c4);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.review-filter button.selected {
+  border-color: #39b86b;
+  background: rgba(57, 184, 107, 0.12);
+  color: #39b86b;
+}
+
+.review-empty {
+  padding: 55px 15px;
+  text-align: center;
+  color: var(--text-secondary, #aab7c4);
+}
+
+.review-empty > span {
+  font-size: 36px;
+}
+
+.review-empty h3 {
+  margin: 12px 0 6px;
+  color: var(--text-primary, #f4f6f8);
+}
+
+.review-empty p {
+  margin: 0;
+  font-size: 13px;
+}
+
+.review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.review-item {
+  padding: 17px;
+  border: 1px solid var(--border-color, #344454);
+  border-radius: 13px;
+  background: var(--input-bg, #111d27);
+}
+
+.review-item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.review-item-top strong {
+  font-size: 14px;
+}
+
+.review-item-top span {
+  color: var(--text-secondary, #aab7c4);
+  font-size: 11px;
+}
+
+.review-stars {
+  margin-top: 12px;
+  color: #e9ad3d;
+  letter-spacing: 2px;
+}
+
+.review-item h3 {
+  margin: 10px 0 7px;
+  font-size: 16px;
+}
+
+.review-item p {
+  margin: 0;
+  color: var(--text-secondary, #aab7c4);
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 900px) {
+  .reviews-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .reviews-page {
+    padding: 18px 14px;
+  }
+
+  .reviews-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .review-form-card,
+  .review-history-card {
+    padding: 18px;
+  }
+
+  .review-history-heading {
+    flex-direction: column;
+  }
+}

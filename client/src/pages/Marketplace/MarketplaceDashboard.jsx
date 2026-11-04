@@ -14,6 +14,15 @@ import PurchaseRequests from './PurchaseRequests';
 import CustomerEnquiries from './CustomerEnquiries';
 import Notifications from './Notifications';
 import PriceAnalytics from './PriceAnalytics';
+import TrackOrders from './TrackOrders';
+import Wishlist from './Wishlist';
+import CompareProducts from './CompareProducts';
+import Reorder from './Reorder';
+import RaiseComplaints from './RaiseComplaints';
+import ReturnRefund from './ReturnRefund';
+import ReviewsRatings from './ReviewsRatings';
+import SavedAddresses from './SavedAddresses';
+import OrderConfirmation from './OrderConfirmation';
 
 import {
   getUserCart,
@@ -336,14 +345,7 @@ const PLACEHOLDER_MODULES = [
   //All modules for farmers are implemented, so no placeholders here.
 
   // Buyer
-  'Track Orders',
-  'Wishlist',
-  'Compare Products',
-  'Reorder',
-  'Raise Complaints',
-  'Return & Refund Requests',
-  'Reviews & Ratings',
-  'Saved Addresses',
+  // All modules Done.
 
   // Logistics
   'New Assignments',
@@ -515,65 +517,26 @@ export default function MarketplaceDashboard({
     );
   }
 
+// ==========================================
+// BUYER - ORDER CONFIRMATION
+// ==========================================
 
-  // ==========================================
-  // BUYER - ORDER CONFIRMATION
-  // ==========================================
-
-  if (
-    role === 'buyer' &&
-    activeModule === 'Order Confirmation'
-  ) {
-    return (
-      <main className="marketplace-dashboard">
-        <div className="container py-4">
-
-          <div className="card shadow-sm">
-            <div className="card-body text-center p-5">
-
-              <i className="fas fa-check-circle fa-3x text-success mb-3"></i>
-
-              <h3>Order Placed Successfully!</h3>
-
-              <p>
-                Your order has been recorded successfully.
-              </p>
-
-              {placedOrder && (
-                <p>
-                  Order ID:{' '}
-                  <strong>
-                    {placedOrder.orderNumber}
-                  </strong>
-                </p>
-              )}
-
-              <button
-                type="button"
-                className="btn-dark-glass-secondary me-2"
-                onClick={() => {
-                  setActiveModule('My Orders');
-                }}
-              >
-                View My Orders
-              </button>
-
-              <button
-                type="button"
-                className="btn-dark-glass-secondary"
-                onClick={goToDashboard}
-              >
-                Back to Dashboard
-              </button>
-
-            </div>
-          </div>
-
-        </div>
-      </main>
-    );
-  }
-
+if (
+  role === 'buyer' &&
+  activeModule === 'Order Confirmation'
+) {
+  return (
+    <OrderConfirmation
+      order={placedOrder}
+      onViewOrders={() => {
+        setActiveModule('My Orders');
+      }}
+      onContinueShopping={() => {
+        setActiveModule('Browse Products');
+      }}
+    />
+  );
+}
 
   // ==========================================
   // ORDER HISTORY
@@ -593,6 +556,104 @@ export default function MarketplaceDashboard({
     );
   }
   
+  // ==========================================
+// TRACK ORDERS
+// ==========================================
+
+if (role === 'buyer' && activeModule === 'Track Orders') {
+  return (
+    <TrackOrders
+      profile={profile}
+      onBack={goToDashboard}
+    />
+  );
+}
+
+// ==========================================
+// BUYER RAISE COMPLAINTS
+// ==========================================
+if (role === 'buyer' && activeModule === 'Raise Complaints') {
+  return (
+    <RaiseComplaints
+      profile={profile}
+      onBack={goToDashboard}
+    />
+  );
+}
+
+// ==========================================
+// BUYER RETURN & REFUND REQUESTS
+// ==========================================
+if (role === 'buyer' && activeModule === 'Return & Refund Requests') {
+  return (
+    <ReturnRefund
+      profile={profile}
+      onBack={goToDashboard}
+    />
+  );
+}
+
+// ==========================================
+// BUYER REVIEWS & RATINGS
+// ==========================================
+if (role === 'buyer' && activeModule === 'Reviews & Ratings') {
+  return (
+    <ReviewsRatings
+      profile={profile}
+      onBack={goToDashboard}
+    />
+  );
+}
+
+// ==========================================
+// BUYER SAVED ADDRESSES
+// ==========================================
+if (role === 'buyer' && activeModule === 'Saved Addresses') {
+  return (
+    <SavedAddresses
+      profile={profile}
+      onBack={goToDashboard}
+    />
+  );
+}
+
+// ==========================================
+// BUYER REORDER
+// ==========================================
+if (role === 'buyer' && activeModule === 'Reorder') {
+  return (
+    <Reorder
+      profile={profile}
+      onBack={goToDashboard}
+    />
+  );
+}
+
+// ==========================================
+// BUYER COMPARE PRODUCTS
+// ==========================================
+
+if (role === 'buyer' && activeModule === 'Compare Products') {
+  return (
+    <CompareProducts
+      profile={profile}
+      onBack={goToDashboard}
+    />
+  );
+}
+
+// ==========================================
+// BUYER WISHLIST
+// ==========================================
+
+if (role === 'buyer' && activeModule === 'Wishlist') {
+  return (
+    <Wishlist
+      profile={profile}
+      onBack={goToDashboard}
+    />
+  );
+}
   
   // ==========================================
   // FARMER - SALES & EARNINGS
@@ -737,7 +798,9 @@ if (
   );
 }
 
+// ==========================================
 // FARMER - NOTIFICATIONS
+// ==========================================
 if (
   role === 'farmer' &&
   activeModule === 'Notifications'
@@ -754,7 +817,38 @@ if (
           Back to Dashboard
         </button>
 
-        <Notifications />
+        <Notifications
+          role={role}
+          profile={profile}
+        />
+      </div>
+    </main>
+  );
+}
+
+// ==========================================
+// BUYER - NOTIFICATIONS
+// ==========================================
+if (
+  role === 'buyer' &&
+  activeModule === 'Notifications'
+) {
+  return (
+    <main className="marketplace-dashboard">
+      <div className="container py-4">
+        <button
+          type="button"
+          className="btn-dark-glass-secondary mb-4"
+          onClick={goToDashboard}
+        >
+          <i className="fas fa-arrow-left me-2"></i>
+          Back to Dashboard
+        </button>
+
+        <Notifications
+          role={role}
+          profile={profile}
+        />
       </div>
     </main>
   );
