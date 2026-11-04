@@ -1,6 +1,10 @@
 
 import React, { useMemo, useState } from 'react';
-import { getAllProducts } from './marketplaceStorage';
+import {
+  getAllProducts,
+  getUserCart,
+  saveUserCart
+} from './marketplaceStorage';
 import './CompareProducts.css';
 
 const getProductId = (product) =>
@@ -35,6 +39,9 @@ export default function CompareProducts({ profile, onBack }) {
     }
   });
 
+  const userKey = profile?.email?.trim().toLowerCase() || 'guest';
+
+  const [cart, setCart] = useState(() => getUserCart(userKey));
   const [selectedIds, setSelectedIds] = useState([]);
   const [search, setSearch] = useState('');
 
@@ -84,6 +91,53 @@ export default function CompareProducts({ profile, onBack }) {
     });
   };
 
+  // Add a compared product to the buyer's cart
+  const addToCart = (product) => {
+    const productId = product.id ?? product.productId ?? product._id;
+
+    if (!productId) {
+      window.alert('Unable to identify this product.');
+      return;
+    }
+
+    const stock = getStock(product);
+
+    if (stock !== undefined && Number(stock) <= 0) {
+      window.alert('This product is currently out of stock.');
+      return;
+    }
+
+    const existingItem = cart.find(
+      (item) => String(item.productId) === String(productId)
+    );
+
+    let updatedCart;
+
+    if (existingItem) {
+      updatedCart = cart.map((item) =>
+        String(item.productId) === String(productId)
+          ? { ...item, quantity: Number(item.quantity || 0) + 1 }
+          : item
+      );
+    } else {
+      updatedCart = [
+        ...cart,
+        {
+          productId,
+          name: getProductName(product),
+          price: getPrice(product),
+          quantity: 1,
+          farmerName: product.farmerName ?? product.farmer?.name ?? '',
+          farmerEmail: product.farmerEmail ?? product.farmer?.email ?? '',
+          imageUrl: getImage(product)
+        }
+      ];
+    }
+
+    setCart(updatedCart);
+    saveUserCart(userKey, updatedCart);
+  };
+
   const clearSelection = () => setSelectedIds([]);
 
   const comparisonRows = [
@@ -123,11 +177,19 @@ export default function CompareProducts({ profile, onBack }) {
 
   return (
     <div className="compare-products-page">
+
+      {/* Header */}
       <div className="compare-header">
         <div>
-          <span className="compare-eyebrow">SMART BUYING DECISION</span>
+          <span className="compare-eyebrow">
+            SMART BUYING DECISION
+          </span>
+
           <h2>Compare Products</h2>
-          <p>Compare farm products side by side before making a purchase.</p>
+
+          <p>
+            Compare farm products side by side before making a purchase.
+          </p>
         </div>
 
         <button
@@ -139,10 +201,16 @@ export default function CompareProducts({ profile, onBack }) {
         </button>
       </div>
 
+      {/* Selection Summary */}
       <div className="compare-summary">
         <div>
           <span>Selected Products</span>
           <strong>{selectedProducts.length}/3</strong>
+        </div>
+
+        <div>
+          <span>Cart Items</span>
+          <strong>{cart.reduce((total, item) => total + Number(item.quantity || 0), 0)}</strong>
         </div>
 
         <button
@@ -155,6 +223,7 @@ export default function CompareProducts({ profile, onBack }) {
         </button>
       </div>
 
+      {/* Product Selection */}
       <div className="compare-selection-panel">
         <div className="compare-section-heading">
           <div>
@@ -217,6 +286,7 @@ export default function CompareProducts({ profile, onBack }) {
         )}
       </div>
 
+      {/* Comparison Results */}
       <div className="compare-results">
         <div className="compare-section-heading">
           <div>
@@ -279,6 +349,43 @@ export default function CompareProducts({ profile, onBack }) {
                     ))}
                   </tr>
                 ))}
+
+                {/* Add to Cart Row */}
+                <tr>
+                  <th scope="row">Purchase</th>
+
+                  {selectedProducts.map((product) => {
+                    const stock = getStock(product);
+                    const outOfStock =
+                      stock !== undefined &&
+                      stock !== null &&
+                      Number(stock) <= 0;
+
+                    const productId = getProductId(product);
+
+                    const alreadyInCart = cart.some(
+                      (item) => String(item.productId) === productId
+                    );
+
+                    return (
+                      <td key={productId}>
+                        <button
+                          type="button"
+                          className="btn btn-success btn-sm w-100"
+                          disabled={outOfStock}
+                          onClick={() => addToCart(product)}
+                        >
+                          <i className="fas fa-cart-plus me-2"></i>
+                          {outOfStock
+                            ? 'Out of Stock'
+                            : alreadyInCart
+                              ? 'Add Another'
+                              : 'Add to Cart'}
+                        </button>
+                      </td>
+                    );
+                  })}
+                </tr>
               </tbody>
             </table>
           </div>

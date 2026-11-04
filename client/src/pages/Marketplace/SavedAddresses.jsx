@@ -1,329 +1,669 @@
 
-import React, { useState } from 'react';
-import './SavedAddresses.css';
+import React, { useEffect, useMemo, useState } from 'react';
 
-const SavedAddresses = ({ profile, onBack }) => {
+import {
+  getAllOrders,
+  saveAllOrders,
+  saveUserCart,
+  getAllProducts
+} from './marketplaceStorage';
+
+const formatPrice = (amount) =>
+  Number(amount || 0).toLocaleString('en-IN', {
+    maximumFractionDigits: 2
+  });
+
+const Checkout = ({
+  cart = [],
+  userKey,
+  profile,
+  onBack,
+  onOrderPlaced
+}) => {
+  // Use the same buyer key as SavedAddresses
   const buyerKey = String(
-    profile?.email || profile?.id || profile?.userId || 'guest'
+    userKey || profile?.email || profile?.id || profile?.userId || 'guest'
   ).toLowerCase();
 
-  const storageKey = `agrosphere_saved_addresses_${buyerKey}`;
+  const addressStorageKey = `agrosphere_saved_addresses_${buyerKey}`;
 
-  const loadAddresses = () => {
+  // Load saved addresses
+  const [savedAddresses, setSavedAddresses] = useState(() => {
     try {
-      return JSON.parse(localStorage.getItem(storageKey)) || [];
+      const result = JSON.parse(
+        localStorage.getItem(addressStorageKey)
+      );
+
+      return Array.isArray(result) ? result : [];
     } catch {
       return [];
     }
-  };
+  });
 
-  const [addresses, setAddresses] = useState(loadAddresses);
+  // Select default address automatically
+  const [selectedAddressId, setSelectedAddressId] = useState(() => {
+    try {
+      const addresses = JSON.parse(
+        localStorage.getItem(addressStorageKey)
+      ) || [];
 
-  const emptyForm = {
-    fullName: profile?.name || profile?.fullName || '',
+      return addresses.find(item => item.isDefault)?.id || '';
+    } catch {
+      return '';
+    }
+  });
+
+  const [formData, setFormData] = useState({
+    buyerName: profile?.fullName || profile?.name || '',
+    email: profile?.email || '',
     phone: profile?.phone || '',
-    label: 'Home',
-    address: '',
-    city: '',
-    state: '',
-    pincode: '',
-    landmark: '',
-  };
+    address: profile?.address || '',
+    city: profile?.city || '',
+    state: profile?.state || '',
+    pincode: profile?.pincode || '',
+    landmark: ''
+  });
 
-  const [form, setForm] = useState(emptyForm);
-  const [editingId, setEditingId] = useState(null);
-  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const persistAddresses = updated => {
-    setAddresses(updated);
-    localStorage.setItem(storageKey, JSON.stringify(updated));
-  };
+  // Load current product inventory
+  const products = useMemo(() => {
+    try {
+      const result = getAllProducts();
+      return Array.isArray(result) ? result : [];
+    } catch (err) {
+      console.error('Unable to load products:', err);
+      return [];
+    }
+  }, []);
 
-  const handleSubmit = event => {
-    event.preventDefault();
+  // Calculate subtotal
+  const subtotal = cart.reduce(
+    (total, item) =>
+      total +
+      Number(item.price || 0) * Number(item.quantity || 0),
+    0
+  );
 
-    const updatedAddress = {
-      ...form,
-      id: editingId || crypto.randomUUID(),
-    };
-
-    let updated;
-
-    if (editingId) {
-      updated = addresses.map(item =>
-        item.id === editingId ? updatedAddress : item
+  // Refresh saved addresses when Checkout mounts
+  useEffect(() => {
+    try {
+      const result = JSON.parse(
+        localStorage.getItem(addressStorageKey)
       );
-    } else {
-      updated = [
-        ...addresses,
-        {
-          ...updatedAddress,
-          isDefault: addresses.length === 0,
-        },
-      ];
-    }
 
-    persistAddresses(updated);
-    setForm(emptyForm);
-    setEditingId(null);
-    setMessage(
-      editingId
-        ? 'Address updated successfully.'
-        : 'Address saved successfully.'
+      const addresses = Array.isArray(result) ? result : [];
+
+      setSavedAddresses(addresses);
+
+      const defaultAddress = addresses.find(item => item.isDefault);
+
+      if (defaultAddress) {
+        setSelectedAddressId(defaultAddress.id);
+      }
+    } catch {
+      setSavedAddresses([]);
+    }
+  }, [addressStorageKey]);
+
+  // Apply selected saved address
+  useEffect(() => {
+    const selected = savedAddresses.find(
+      item => String(item.id) === String(selectedAddressId)
     );
-  };
 
-  const handleEdit = item => {
-    setForm({
-      fullName: item.fullName || '',
-      phone: item.phone || '',
-      label: item.label || 'Home',
-      address: item.address || '',
-      city: item.city || '',
-      state: item.state || '',
-      pincode: item.pincode || '',
-      landmark: item.landmark || '',
-    });
+    if (!selected) return;
 
-    setEditingId(item.id);
-    setMessage('');
-  };
-
-  const handleDelete = id => {
-    const updated = addresses.filter(item => item.id !== id);
-
-    if (addresses.find(item => item.id === id)?.isDefault && updated.length) {
-      updated[0].isDefault = true;
-    }
-
-    persistAddresses(updated);
-    setMessage('Address deleted successfully.');
-
-    if (editingId === id) {
-      setEditingId(null);
-      setForm(emptyForm);
-    }
-  };
-
-  const setDefault = id => {
-    const updated = addresses.map(item => ({
-      ...item,
-      isDefault: item.id === id,
+    setFormData(previous => ({
+      ...previous,
+      buyerName: selected.fullName || previous.buyerName,
+      phone: selected.phone || previous.phone,
+      address: selected.address || '',
+      city: selected.city || '',
+      state: selected.state || '',
+      pincode: selected.pincode || '',
+      landmark: selected.landmark || ''
     }));
 
-    persistAddresses(updated);
-    setMessage('Default address updated.');
+    setError('');
+  }, [selectedAddressId, savedAddresses]);
+
+  // Handle selecting a saved address or entering a new one
+  const handleAddressSelection = (e) => {
+    const addressId = e.target.value;
+
+    setSelectedAddressId(addressId);
+
+    if (!addressId) {
+      setFormData(previous => ({
+        ...previous,
+        address: '',
+        city: '',
+        state: '',
+        pincode: '',
+        landmark: ''
+      }));
+    }
   };
 
-  const cancelEdit = () => {
-    setEditingId(null);
-    setForm(emptyForm);
-    setMessage('');
+  // Handle form input
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData(previous => ({
+      ...previous,
+      [name]: value
+    }));
+
+    setError('');
+  };
+
+  // Check current product stock
+  const validateStock = () => {
+    for (const item of cart) {
+      const product = products.find(
+        product =>
+          String(
+            product.id ?? product.productId ?? product._id
+          ) === String(item.productId)
+      );
+
+      if (!product) continue;
+
+      const stock =
+        product.stock ??
+        product.quantity ??
+        product.availableQuantity;
+
+      if (stock !== undefined && stock !== null && stock !== '') {
+        if (Number(stock) <= 0) {
+          return `${item.name} is currently out of stock.`;
+        }
+
+        if (Number(item.quantity) > Number(stock)) {
+          return `Only ${stock} units of ${item.name} are currently available.`;
+        }
+      }
+    }
+
+    return '';
+  };
+
+  // Place order
+  const handlePlaceOrder = (e) => {
+    e.preventDefault();
+
+    if (isSubmitting) return;
+
+    setError('');
+
+    if (!cart.length) {
+      setError('Your cart is empty.');
+      return;
+    }
+
+    // Validate delivery information
+    if (
+      !formData.buyerName.trim() ||
+      !formData.email.trim() ||
+      !formData.phone.trim() ||
+      !formData.address.trim() ||
+      !formData.city.trim() ||
+      !formData.state.trim() ||
+      !formData.pincode.trim()
+    ) {
+      setError('Please fill in all required delivery details.');
+      return;
+    }
+
+    if (
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())
+    ) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+
+    if (!/^\d{10}$/.test(formData.phone.trim())) {
+      setError('Please enter a valid 10-digit phone number.');
+      return;
+    }
+
+    if (!/^\d{6}$/.test(formData.pincode.trim())) {
+      setError('Please enter a valid 6-digit PIN code.');
+      return;
+    }
+
+    // Validate cart items
+    const invalidItem = cart.find(
+      item =>
+        !item.productId ||
+        !Number.isFinite(Number(item.price)) ||
+        Number(item.price) < 0 ||
+        !Number.isInteger(Number(item.quantity)) ||
+        Number(item.quantity) <= 0
+    );
+
+    if (invalidItem) {
+      setError(
+        'Your cart contains an invalid product or quantity. Please review your cart.'
+      );
+      return;
+    }
+
+    // Validate inventory
+    const stockError = validateStock();
+
+    if (stockError) {
+      setError(stockError);
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const orderId =
+        typeof crypto !== 'undefined' && crypto.randomUUID
+          ? crypto.randomUUID()
+          : `order-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+
+      const order = {
+        id: orderId,
+        orderNumber: `AGRO-${Date.now()}`,
+
+        buyerKey,
+        buyerName: formData.buyerName.trim(),
+        buyerEmail: formData.email.trim().toLowerCase(),
+        buyerPhone: formData.phone.trim(),
+
+        deliveryAddress: {
+          address: formData.address.trim(),
+          city: formData.city.trim(),
+          state: formData.state.trim(),
+          pincode: formData.pincode.trim(),
+          landmark: formData.landmark.trim()
+        },
+
+        items: cart.map(item => ({
+          productId: item.productId,
+          name: item.name,
+          price: Number(item.price),
+          quantity: Number(item.quantity),
+          unit: item.unit || 'unit',
+          farmerName: item.farmerName || '',
+          farmerEmail: item.farmerEmail || '',
+          imageUrl: item.imageUrl || '',
+          status: 'Pending'
+        })),
+
+        subtotal,
+        totalAmount: subtotal,
+        paymentMethod: 'Payment on confirmation',
+        paymentStatus: 'Pending',
+        status: 'Pending',
+        createdAt: new Date().toISOString()
+      };
+
+      const existingOrders = getAllOrders();
+
+      if (!Array.isArray(existingOrders)) {
+        throw new Error('Unable to retrieve existing orders.');
+      }
+
+      saveAllOrders([
+        order,
+        ...existingOrders
+      ]);
+
+      // Clear buyer cart after saving order
+      saveUserCart(buyerKey, []);
+
+      onOrderPlaced(order);
+
+    } catch (err) {
+      console.error('Order placement failed:', err);
+
+      setError(
+        'Unable to place your order right now. Please try again.'
+      );
+
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <div className="saved-addresses-page">
-      <header className="saved-addresses-header">
-        <button className="saved-addresses-back" onClick={onBack}>
-          ← Back to Dashboard
-        </button>
+    <main className="marketplace-dashboard">
+      <div className="container py-4">
 
-        <span className="saved-addresses-eyebrow">MY ACCOUNT</span>
-        <h1>Saved Addresses</h1>
-        <p>
-          Manage your delivery locations for a faster checkout experience.
-        </p>
-      </header>
+        {/* Header */}
+        <div className="mb-4">
+          <button
+            type="button"
+            className="btn-dark-glass-secondary mb-3"
+            onClick={onBack}
+          >
+            <i className="fas fa-arrow-left me-2"></i>
+            Back to Cart
+          </button>
 
-      <div className="saved-addresses-layout">
-        <section className="address-form-card">
-          <h2>{editingId ? 'Edit Address' : 'Add New Address'}</h2>
-          <p>Enter your delivery details below.</p>
+          <span className="text-success small fw-bold">
+            COMPLETE YOUR PURCHASE
+          </span>
 
-          <form onSubmit={handleSubmit}>
-            <label>Full Name *</label>
-            <input
-              value={form.fullName}
-              onChange={e =>
-                setForm({ ...form, fullName: e.target.value })
-              }
-              placeholder="Enter full name"
-              required
-            />
+          <h3 className="mt-1">Checkout</h3>
 
-            <label>Phone Number *</label>
-            <input
-              type="tel"
-              value={form.phone}
-              onChange={e =>
-                setForm({ ...form, phone: e.target.value })
-              }
-              placeholder="Enter phone number"
-              pattern="[0-9]{10}"
-              maxLength="10"
-              required
-            />
+          <p className="text-secondary">
+            Select your delivery address and confirm your order.
+          </p>
+        </div>
 
-            <label>Address Type</label>
-            <select
-              value={form.label}
-              onChange={e =>
-                setForm({ ...form, label: e.target.value })
-              }
-            >
-              <option>Home</option>
-              <option>Work</option>
-              <option>Other</option>
-            </select>
+        <form onSubmit={handlePlaceOrder}>
+          <div className="row g-4">
 
-            <label>Full Address *</label>
-            <textarea
-              rows="3"
-              value={form.address}
-              onChange={e =>
-                setForm({ ...form, address: e.target.value })
-              }
-              placeholder="House number, street, area..."
-              required
-            />
+            {/* Delivery Information */}
+            <div className="col-lg-7">
+              <div className="card shadow-sm">
+                <div className="card-body p-4">
 
-            <div className="address-form-row">
-              <div>
-                <label>City *</label>
-                <input
-                  value={form.city}
-                  onChange={e =>
-                    setForm({ ...form, city: e.target.value })
-                  }
-                  placeholder="City"
-                  required
-                />
-              </div>
+                  <h5 className="mb-4">
+                    <i className="fas fa-map-marker-alt me-2 text-success"></i>
+                    Delivery Information
+                  </h5>
 
-              <div>
-                <label>State *</label>
-                <input
-                  value={form.state}
-                  onChange={e =>
-                    setForm({ ...form, state: e.target.value })
-                  }
-                  placeholder="State"
-                  required
-                />
-              </div>
-            </div>
+                  {/* Saved Address Selector */}
+                  {savedAddresses.length > 0 && (
+                    <div className="mb-4">
+                      <label className="form-label fw-semibold">
+                        Choose a Saved Address
+                      </label>
 
-            <label>PIN Code *</label>
-            <input
-              value={form.pincode}
-              onChange={e =>
-                setForm({ ...form, pincode: e.target.value })
-              }
-              placeholder="6-digit PIN code"
-              pattern="[0-9]{6}"
-              maxLength="6"
-              required
-            />
+                      <select
+                        className="form-select"
+                        value={selectedAddressId}
+                        onChange={handleAddressSelection}
+                      >
+                        <option value="">
+                          Enter a new address
+                        </option>
 
-            <label>Landmark (Optional)</label>
-            <input
-              value={form.landmark}
-              onChange={e =>
-                setForm({ ...form, landmark: e.target.value })
-              }
-              placeholder="Nearby landmark"
-            />
+                        {savedAddresses.map(address => (
+                          <option
+                            key={address.id}
+                            value={address.id}
+                          >
+                            {address.label} — {address.city}, {address.pincode}
+                            {address.isDefault ? ' (Default)' : ''}
+                          </option>
+                        ))}
+                      </select>
 
-            {message && (
-              <div className="address-message">{message}</div>
-            )}
+                      <p className="small text-secondary mt-2 mb-0">
+                        Select a saved address to automatically fill in your delivery details.
+                      </p>
+                    </div>
+                  )}
 
-            <div className="address-form-actions">
-              <button type="submit" className="address-save-btn">
-                {editingId ? 'Update Address' : 'Save Address'}
-              </button>
+                  {savedAddresses.length === 0 && (
+                    <div className="alert alert-info">
+                      <i className="fas fa-info-circle me-2"></i>
+                      No saved addresses found. Enter your delivery details below.
+                    </div>
+                  )}
 
-              {editingId && (
-                <button
-                  type="button"
-                  className="address-cancel-btn"
-                  onClick={cancelEdit}
-                >
-                  Cancel
-                </button>
-              )}
-            </div>
-          </form>
-        </section>
+                  {/* Error Message */}
+                  {error && (
+                    <div className="alert alert-danger" role="alert">
+                      {error}
+                    </div>
+                  )}
 
-        <section className="address-list-card">
-          <div className="address-list-heading">
-            <div>
-              <h2>Your Addresses</h2>
-              <p>Choose and manage your saved locations.</p>
-            </div>
-            <span>{addresses.length} Saved</span>
-          </div>
+                  {/* Buyer Name */}
+                  <div className="mb-3">
+                    <label className="form-label">
+                      Full Name *
+                    </label>
 
-          {addresses.length === 0 ? (
-            <div className="address-empty">
-              <span>📍</span>
-              <h3>No saved addresses</h3>
-              <p>Add your first delivery address using the form.</p>
-            </div>
-          ) : (
-            <div className="address-list">
-              {addresses.map(item => (
-                <article className="address-item" key={item.id}>
-                  <div className="address-item-heading">
-                    <div>
-                      <span className="address-type">
-                        {item.label === 'Home' ? '⌂' : '📍'} {item.label}
-                      </span>
-                      {item.isDefault && (
-                        <span className="address-default">DEFAULT</span>
-                      )}
+                    <input
+                      type="text"
+                      name="buyerName"
+                      className="form-control"
+                      value={formData.buyerName}
+                      onChange={handleChange}
+                      maxLength={100}
+                      required
+                    />
+                  </div>
+
+                  {/* Email and Phone */}
+                  <div className="row">
+                    <div className="col-md-6 mb-3">
+                      <label className="form-label">
+                        Email *
+                      </label>
+
+                      <input
+                        type="email"
+                        name="email"
+                        className="form-control"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+
+                    <div className="col-md-6 mb-3">
+                      <label className="form-label">
+                        Phone Number *
+                      </label>
+
+                      <input
+                        type="tel"
+                        name="phone"
+                        className="form-control"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        maxLength={10}
+                        inputMode="numeric"
+                        required
+                      />
                     </div>
                   </div>
 
-                  <h3>{item.fullName}</h3>
-                  <p>{item.address}</p>
-                  <p>
-                    {item.city}, {item.state} - {item.pincode}
+                  {/* Address */}
+                  <div className="mb-3">
+                    <label className="form-label">
+                      Delivery Address *
+                    </label>
+
+                    <textarea
+                      name="address"
+                      className="form-control"
+                      rows="3"
+                      value={formData.address}
+                      onChange={handleChange}
+                      placeholder="House number, street, area..."
+                      maxLength={300}
+                      required
+                    />
+                  </div>
+
+                  {/* Landmark */}
+                  <div className="mb-3">
+                    <label className="form-label">
+                      Landmark
+                    </label>
+
+                    <input
+                      type="text"
+                      name="landmark"
+                      className="form-control"
+                      value={formData.landmark}
+                      onChange={handleChange}
+                      placeholder="Nearby landmark (optional)"
+                      maxLength={150}
+                    />
+                  </div>
+
+                  {/* City, State and PIN */}
+                  <div className="row">
+                    <div className="col-md-6 mb-3">
+                      <label className="form-label">
+                        City *
+                      </label>
+
+                      <input
+                        type="text"
+                        name="city"
+                        className="form-control"
+                        value={formData.city}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+
+                    <div className="col-md-6 mb-3">
+                      <label className="form-label">
+                        State *
+                      </label>
+
+                      <input
+                        type="text"
+                        name="state"
+                        className="form-control"
+                        value={formData.state}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+
+                    <div className="col-md-6 mb-3">
+                      <label className="form-label">
+                        PIN Code *
+                      </label>
+
+                      <input
+                        type="text"
+                        name="pincode"
+                        className="form-control"
+                        value={formData.pincode}
+                        onChange={handleChange}
+                        maxLength={6}
+                        inputMode="numeric"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <p className="small text-secondary mb-0">
+                    * Required delivery information.
                   </p>
 
-                  {item.landmark && (
-                    <small>Landmark: {item.landmark}</small>
-                  )}
-
-                  <small>Phone: {item.phone}</small>
-
-                  <div className="address-item-actions">
-                    {!item.isDefault && (
-                      <button onClick={() => setDefault(item.id)}>
-                        Set Default
-                      </button>
-                    )}
-
-                    <button onClick={() => handleEdit(item)}>
-                      Edit
-                    </button>
-
-                    <button
-                      className="address-delete-btn"
-                      onClick={() => handleDelete(item.id)}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </article>
-              ))}
+                </div>
+              </div>
             </div>
-          )}
-        </section>
+
+            {/* Order Summary */}
+            <div className="col-lg-5">
+              <div className="card shadow-sm">
+                <div className="card-body p-4">
+
+                  <h5 className="mb-4">
+                    Order Summary
+                  </h5>
+
+                  {cart.map(item => (
+                    <div
+                      key={item.productId}
+                      className="d-flex justify-content-between gap-3 mb-3"
+                    >
+                      <div>
+                        <strong>
+                          {item.name || 'Unnamed Product'}
+                        </strong>
+
+                        <p className="small text-secondary mb-0">
+                          {item.quantity} {item.unit || 'unit'} × ₹
+                          {formatPrice(item.price)}
+                        </p>
+                      </div>
+
+                      <strong>
+                        ₹
+                        {formatPrice(
+                          Number(item.price) * Number(item.quantity)
+                        )}
+                      </strong>
+                    </div>
+                  ))}
+
+                  <hr />
+
+                  <div className="d-flex justify-content-between mb-3">
+                    <span>Total Items</span>
+
+                    <strong>
+                      {cart.reduce(
+                        (total, item) =>
+                          total + Number(item.quantity || 0),
+                        0
+                      )}
+                    </strong>
+                  </div>
+
+                  <div className="d-flex justify-content-between mb-3">
+                    <span>Subtotal</span>
+
+                    <strong>
+                      ₹{formatPrice(subtotal)}
+                    </strong>
+                  </div>
+
+                  <div className="d-flex justify-content-between mb-3">
+                    <span>Delivery Charges</span>
+                    <span>To be confirmed</span>
+                  </div>
+
+                  <hr />
+
+                  <div className="d-flex justify-content-between mb-4">
+                    <strong>Total Amount</strong>
+
+                    <strong className="text-success fs-5">
+                      ₹{formatPrice(subtotal)}
+                    </strong>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="btn btn-success w-100"
+                    disabled={cart.length === 0 || isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <span className="spinner-border spinner-border-sm me-2"></span>
+                        Placing Order...
+                      </>
+                    ) : (
+                      <>
+                        <i className="fas fa-check-circle me-2"></i>
+                        Confirm & Place Order
+                      </>
+                    )}
+                  </button>
+
+                  <p className="small text-secondary text-center mt-3 mb-0">
+                    Online payment is not integrated in this demo.
+                  </p>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </form>
       </div>
-    </div>
+    </main>
   );
 };
 
-export default SavedAddresses;
+export default Checkout;
