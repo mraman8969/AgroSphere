@@ -1,0 +1,343 @@
+
+.lls-page {
+  --lls-bg: var(--bg-primary, #f4f6f9);
+  --lls-card: var(--card-bg, #ffffff);
+  --lls-text: var(--text-primary, #172033);
+  --lls-muted: var(--text-secondary, #687386);
+  --lls-border: var(--border-color, rgba(100, 116, 139, 0.2));
+  --lls-input: var(--input-bg, #f8fafc);
+  --lls-accent: var(--primary-color, #16a36a);
+
+  min-height: 100%;
+  padding: 28px;
+  border-radius: 18px;
+  background: var(--lls-bg);
+  color: var(--lls-text);
+}
+
+.lls-page,
+.lls-page * {
+  box-sizing: border-box;
+}
+
+.lls-header {
+  margin-bottom: 25px;
+}
+
+.lls-back-btn {
+  padding: 0;
+  margin-bottom: 22px;
+  border: none;
+  background: transparent;
+  color: var(--lls-accent);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.lls-eyebrow {
+  margin: 0 0 8px;
+  color: var(--lls-accent);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.lls-header h1 {
+  margin: 0;
+  color: var(--lls-text);
+  font-size: clamp(25px, 3vw, 34px);
+  font-weight: 800;
+}
+
+.lls-subtitle {
+  margin: 9px 0 0;
+  color: var(--lls-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.lls-main-card,
+.lls-details-card {
+  margin-bottom: 22px;
+  padding: 23px;
+  border: 1px solid var(--lls-border);
+  border-radius: 17px;
+  background: var(--lls-card);
+  box-shadow: 0 12px 35px rgba(15, 23, 42, 0.06);
+}
+
+.lls-status-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.lls-location-icon {
+  display: grid;
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  border-radius: 13px;
+  background: rgba(22, 163, 106, 0.1);
+  font-size: 22px;
+}
+
+.lls-status-row h2,
+.lls-section-heading h2 {
+  margin: 0;
+  color: var(--lls-text);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.lls-status-row p,
+.lls-section-heading p {
+  margin: 6px 0 0;
+  color: var(--lls-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.lls-status {
+  flex-shrink: 0;
+  margin-left: auto;
+  padding: 7px 11px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.lls-active {
+  background: rgba(22, 163, 106, 0.12);
+  color: #16a36a;
+}
+
+.lls-inactive {
+  background: rgba(148, 163, 184, 0.15);
+  color: var(--lls-muted);
+}
+
+.lls-map-placeholder {
+  display: grid;
+  min-height: 260px;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--lls-border);
+  border-radius: 14px;
+  background-color: var(--lls-input);
+  background-image:
+    linear-gradient(rgba(120, 140, 160, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120, 140, 160, 0.08) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+.lls-map-content {
+  padding: 20px;
+  text-align: center;
+}
+
+.lls-map-pin {
+  font-size: 40px;
+}
+
+.lls-map-content h3 {
+  margin: 12px 0 7px;
+  color: var(--lls-text);
+  font-size: 17px;
+}
+
+.lls-map-content p {
+  max-width: 350px;
+  margin: 0 auto;
+  color: var(--lls-muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.lls-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 11px;
+  margin-top: 20px;
+}
+
+.lls-start-btn,
+.lls-stop-btn,
+.lls-map-btn {
+  min-height: 43px;
+  padding: 11px 17px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.lls-start-btn {
+  border: 1px solid var(--lls-accent);
+  background: var(--lls-accent);
+  color: #ffffff;
+}
+
+.lls-stop-btn {
+  border: 1px solid #ef4444;
+  background: #ef4444;
+  color: #ffffff;
+}
+
+.lls-map-btn {
+  border: 1px solid var(--lls-border);
+  background: transparent;
+  color: var(--lls-text);
+}
+
+.lls-start-btn:hover,
+.lls-stop-btn:hover,
+.lls-map-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.06);
+}
+
+.lls-map-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.lls-section-heading {
+  margin-bottom: 20px;
+}
+
+.lls-details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.lls-detail-item {
+  min-width: 0;
+  padding: 17px;
+  border: 1px solid var(--lls-border);
+  border-radius: 12px;
+  background: var(--lls-input);
+}
+
+.lls-detail-item span,
+.lls-detail-item strong {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+.lls-detail-item span {
+  margin-bottom: 8px;
+  color: var(--lls-muted);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.lls-detail-item strong {
+  color: var(--lls-text);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.lls-empty {
+  padding: 25px 10px;
+  text-align: center;
+}
+
+.lls-empty span {
+  font-size: 35px;
+}
+
+.lls-empty p {
+  margin: 10px 0 0;
+  color: var(--lls-muted);
+  font-size: 13px;
+}
+
+.lls-error {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+  padding: 13px 15px;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 10px;
+  background: rgba(239, 68, 68, 0.08);
+  color: #ef4444;
+  font-size: 13px;
+}
+
+.lls-error button {
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-size: 21px;
+  cursor: pointer;
+}
+
+.lls-notice {
+  padding: 17px 19px;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 12px;
+  background: rgba(59, 130, 246, 0.06);
+}
+
+.lls-notice strong {
+  color: var(--lls-text);
+  font-size: 13px;
+}
+
+.lls-notice p {
+  margin: 8px 0 0;
+  color: var(--lls-muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+@media (max-width: 650px) {
+  .lls-page {
+    padding: 17px;
+  }
+
+  .lls-main-card,
+  .lls-details-card {
+    padding: 16px;
+  }
+
+  .lls-status-row {
+    flex-wrap: wrap;
+  }
+
+  .lls-status {
+    margin-left: 0;
+  }
+
+  .lls-details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lls-actions {
+    flex-direction: column;
+  }
+
+  .lls-actions button {
+    width: 100%;
+  }
+}
+
+.dark .lls-page,
+[data-theme="dark"] .lls-page,
+.dark-theme .lls-page {
+  --lls-bg: var(--bg-primary, #0b1220);
+  --lls-card: var(--card-bg, rgba(20, 30, 48, 0.88));
+  --lls-text: var(--text-primary, #f1f5f9);
+  --lls-muted: var(--text-secondary, #a1adbd);
+  --lls-border: var(--border-color, rgba(148, 163, 184, 0.17));
+  --lls-input: var(--input-bg, rgba(15, 23, 42, 0.75));
+  --lls-accent: var(--primary-color, #34d399);
+}

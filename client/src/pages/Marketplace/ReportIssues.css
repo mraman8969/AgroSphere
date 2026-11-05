@@ -1,0 +1,322 @@
+
+.log-issues-page {
+  --issues-bg: var(--card-bg, var(--surface, #ffffff));
+  --issues-text: var(--text-primary, #1f2937);
+  --issues-muted: var(--text-secondary, #6b7280);
+  --issues-border: var(--border-color, #e5e7eb);
+  --issues-input: var(--input-bg, var(--background, #f9fafb));
+  --issues-accent: var(--primary-color, #16a34a);
+
+  width: 100%;
+  min-height: 100%;
+  padding: 24px;
+  color: var(--issues-text);
+  box-sizing: border-box;
+}
+
+.log-issues-page * {
+  box-sizing: border-box;
+}
+
+.log-issues-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 26px;
+}
+
+.log-issues-back {
+  border: none;
+  background: transparent;
+  color: var(--issues-accent);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 16px;
+}
+
+.log-issues-header h1 {
+  margin: 0 0 8px;
+  font-size: clamp(24px, 3vw, 30px);
+  font-weight: 750;
+  color: var(--issues-text);
+}
+
+.log-issues-header p,
+.log-issues-section-heading p {
+  margin: 0;
+  color: var(--issues-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.log-issues-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.log-issues-stat-card,
+.log-issues-form-card,
+.log-issues-history {
+  background: var(--issues-bg);
+  border: 1px solid var(--issues-border);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.log-issues-stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.log-issues-stat-card span {
+  color: var(--issues-muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.log-issues-stat-card strong {
+  color: var(--issues-text);
+  font-size: 28px;
+  font-weight: 750;
+}
+
+.log-issues-section-heading {
+  margin-bottom: 22px;
+}
+
+.log-issues-section-heading h2 {
+  margin: 0 0 6px;
+  color: var(--issues-text);
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.log-issues-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.log-issues-form-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  color: var(--issues-text);
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.log-issues-form-grid select,
+.log-issues-form-grid textarea,
+.log-issues-toolbar input,
+.log-issues-toolbar select {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--issues-border);
+  border-radius: 10px;
+  background: var(--issues-input);
+  color: var(--issues-text);
+  padding: 12px 14px;
+  font: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.log-issues-form-grid select,
+.log-issues-toolbar select {
+  min-height: 44px;
+}
+
+.log-issues-form-grid textarea {
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.log-issues-form-grid select:focus,
+.log-issues-form-grid textarea:focus,
+.log-issues-toolbar input:focus,
+.log-issues-toolbar select:focus {
+  border-color: var(--issues-accent);
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.12);
+}
+
+.log-issues-description {
+  grid-column: 1 / -1;
+}
+
+.log-issues-description small {
+  color: var(--issues-muted);
+  text-align: right;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.log-issues-message {
+  margin: 16px 0 0;
+  color: var(--issues-accent);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.log-issues-submit {
+  margin-top: 20px;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 10px;
+  background: var(--issues-accent);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.log-issues-submit:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.log-issues-history {
+  margin-top: 24px;
+}
+
+.log-issues-toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 190px;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.log-issues-empty {
+  padding: 36px 16px;
+  text-align: center;
+  border: 1px dashed var(--issues-border);
+  border-radius: 12px;
+}
+
+.log-issues-empty h3 {
+  margin: 0 0 8px;
+  color: var(--issues-text);
+  font-size: 16px;
+}
+
+.log-issues-empty p {
+  margin: 0;
+  color: var(--issues-muted);
+  font-size: 13px;
+}
+
+.log-issues-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.log-issues-item {
+  padding: 17px;
+  border: 1px solid var(--issues-border);
+  border-radius: 12px;
+  background: var(--issues-input);
+}
+
+.log-issues-item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.log-issues-item-top > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.log-issues-item-top strong {
+  color: var(--issues-text);
+  font-size: 15px;
+}
+
+.log-issues-item-top > div span,
+.log-issues-item-meta {
+  color: var(--issues-muted);
+  font-size: 12px;
+}
+
+.log-issues-status {
+  padding: 5px 10px;
+  border-radius: 20px;
+  background: rgba(245, 158, 11, 0.12);
+  color: #d97706;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.log-issues-status.resolved {
+  background: rgba(22, 163, 74, 0.12);
+  color: #16a34a;
+}
+
+.log-issues-item-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 14px 0;
+}
+
+.log-issues-item > p {
+  margin: 0;
+  color: var(--issues-text);
+  font-size: 13px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 700px) {
+  .log-issues-page {
+    padding: 16px;
+  }
+
+  .log-issues-stats {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .log-issues-stat-card {
+    padding: 16px;
+  }
+
+  .log-issues-stat-card strong {
+    font-size: 24px;
+  }
+
+  .log-issues-form-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .log-issues-description {
+    grid-column: auto;
+  }
+
+  .log-issues-toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .log-issues-item-top {
+    flex-direction: column;
+  }
+
+  .log-issues-item-meta {
+    flex-direction: column;
+    gap: 7px;
+  }
+}

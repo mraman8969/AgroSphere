@@ -1,0 +1,316 @@
+
+.available-deliveries-page {
+  --delivery-bg: var(--card-bg, var(--surface, #ffffff));
+  --delivery-text: var(--text-primary, #1f2937);
+  --delivery-muted: var(--text-secondary, #6b7280);
+  --delivery-border: var(--border-color, #e5e7eb);
+  --delivery-input: var(--input-bg, var(--background, #f9fafb));
+  --delivery-accent: var(--primary-color, #16a34a);
+
+  width: 100%;
+  min-height: 100%;
+  padding: 24px;
+  color: var(--delivery-text);
+  box-sizing: border-box;
+}
+
+.available-deliveries-page * {
+  box-sizing: border-box;
+}
+
+.available-deliveries-header {
+  margin-bottom: 25px;
+}
+
+.available-deliveries-back {
+  padding: 0;
+  margin-bottom: 15px;
+  border: none;
+  background: transparent;
+  color: var(--delivery-accent);
+  font-size: 14px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.available-deliveries-header h1 {
+  margin: 0 0 8px;
+  color: var(--delivery-text);
+  font-size: clamp(24px, 3vw, 30px);
+  font-weight: 750;
+}
+
+.available-deliveries-header p {
+  margin: 0;
+  color: var(--delivery-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.available-deliveries-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.available-deliveries-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  border: 1px solid var(--delivery-border);
+  border-radius: 15px;
+  background: var(--delivery-bg);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.available-deliveries-stat span {
+  color: var(--delivery-muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.available-deliveries-stat strong {
+  color: var(--delivery-text);
+  font-size: 28px;
+  font-weight: 750;
+}
+
+.available-deliveries-message {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 16px;
+  margin-bottom: 18px;
+  border: 1px solid var(--delivery-border);
+  border-radius: 10px;
+  background: var(--delivery-input);
+  color: var(--delivery-text);
+  font-size: 13px;
+}
+
+.available-deliveries-message button {
+  border: none;
+  background: transparent;
+  color: var(--delivery-muted);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.available-deliveries-toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.available-deliveries-toolbar input,
+.available-deliveries-toolbar select {
+  width: 100%;
+  min-width: 0;
+  min-height: 45px;
+  padding: 11px 14px;
+  border: 1px solid var(--delivery-border);
+  border-radius: 10px;
+  outline: none;
+  background: var(--delivery-input);
+  color: var(--delivery-text);
+  font: inherit;
+  font-size: 14px;
+}
+
+.available-deliveries-toolbar input:focus,
+.available-deliveries-toolbar select:focus {
+  border-color: var(--delivery-accent);
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.12);
+}
+
+.available-deliveries-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.available-delivery-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--delivery-border);
+  border-radius: 15px;
+  background: var(--delivery-bg);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.available-delivery-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--delivery-border);
+}
+
+.available-delivery-label {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--delivery-muted);
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 1px;
+}
+
+.available-delivery-card-header h3 {
+  margin: 0;
+  color: var(--delivery-text);
+  font-size: 17px;
+  font-weight: 750;
+  overflow-wrap: anywhere;
+}
+
+.available-delivery-status {
+  padding: 6px 10px;
+  border-radius: 20px;
+  background: rgba(22, 163, 74, 0.12);
+  color: #16a34a;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.available-delivery-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  padding: 17px 0;
+}
+
+.available-delivery-details > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.available-delivery-details > div span,
+.available-delivery-products > span {
+  color: var(--delivery-muted);
+  font-size: 12px;
+  font-weight: 550;
+}
+
+.available-delivery-details > div strong {
+  color: var(--delivery-text);
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.available-delivery-products {
+  padding: 14px;
+  border-radius: 10px;
+  background: var(--delivery-input);
+}
+
+.available-delivery-products ul {
+  margin: 10px 0 0;
+  padding-left: 19px;
+  color: var(--delivery-text);
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.available-delivery-products p {
+  margin: 9px 0 0;
+  color: var(--delivery-muted);
+  font-size: 12px;
+}
+
+.available-delivery-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 18px;
+}
+
+.available-delivery-actions button {
+  flex: 1;
+  min-height: 42px;
+  padding: 10px 14px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.available-delivery-actions button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.available-delivery-reject {
+  border: 1px solid var(--delivery-border);
+  background: transparent;
+  color: var(--delivery-text);
+}
+
+.available-delivery-accept {
+  border: 1px solid var(--delivery-accent);
+  background: var(--delivery-accent);
+  color: #ffffff;
+}
+
+.available-deliveries-empty {
+  padding: 45px 20px;
+  border: 1px dashed var(--delivery-border);
+  border-radius: 14px;
+  background: var(--delivery-bg);
+  text-align: center;
+}
+
+.available-deliveries-empty h3 {
+  margin: 0 0 8px;
+  color: var(--delivery-text);
+  font-size: 17px;
+}
+
+.available-deliveries-empty p {
+  max-width: 480px;
+  margin: 0 auto;
+  color: var(--delivery-muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+@media (max-width: 900px) {
+  .available-deliveries-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .available-deliveries-page {
+    padding: 16px;
+  }
+
+  .available-deliveries-stats {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .available-deliveries-toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .available-delivery-details {
+    grid-template-columns: 1fr;
+  }
+
+  .available-delivery-actions {
+    flex-direction: column-reverse;
+  }
+}
