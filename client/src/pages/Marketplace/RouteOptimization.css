@@ -1,0 +1,341 @@
+
+.route-optimization-page {
+  --route-card-bg: var(--card-bg, rgba(255, 255, 255, 0.06));
+  --route-border: var(--border-color, rgba(148, 163, 184, 0.2));
+  --route-text: var(--text-primary, inherit);
+  --route-muted: var(--text-secondary, #94a3b8);
+  --route-accent: var(--primary-color, #22c55e);
+
+  width: 100%;
+  min-height: 100%;
+  padding: 28px;
+  color: var(--route-text);
+  box-sizing: border-box;
+}
+
+.route-optimization-page * {
+  box-sizing: border-box;
+}
+
+.route-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.route-page-header h1 {
+  margin: 8px 0;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 750;
+  letter-spacing: -0.7px;
+}
+
+.route-back-button,
+.route-refresh-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 1px solid var(--route-border);
+  border-radius: 10px;
+  background: var(--route-card-bg);
+  color: var(--route-text);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.route-back-button:hover,
+.route-refresh-button:hover {
+  border-color: var(--route-accent);
+  transform: translateY(-1px);
+}
+
+.route-eyebrow {
+  color: var(--route-accent);
+  font-size: 0.75rem;
+  font-weight: 750;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.route-subtitle {
+  max-width: 650px;
+  margin: 0;
+  color: var(--route-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.route-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.route-overview-card {
+  padding: 22px;
+  border: 1px solid var(--route-border);
+  border-radius: 16px;
+  background: var(--route-card-bg);
+  backdrop-filter: blur(12px);
+}
+
+.route-overview-card h3 {
+  margin: 0 0 12px;
+  color: var(--route-muted);
+  font-size: 0.88rem;
+  font-weight: 550;
+}
+
+.route-overview-card strong {
+  display: block;
+  font-size: 1.8rem;
+  font-weight: 750;
+}
+
+.route-planner-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.route-orders-panel,
+.route-plan-panel {
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid var(--route-border);
+  border-radius: 16px;
+  background: var(--route-card-bg);
+}
+
+.route-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.route-panel-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.route-empty-state,
+.route-empty-plan {
+  padding: 32px 16px;
+  border: 1px dashed var(--route-border);
+  border-radius: 12px;
+  color: var(--route-muted);
+  text-align: center;
+  line-height: 1.6;
+}
+
+.route-order-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.route-order-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--route-border);
+  border-radius: 12px;
+  background: transparent;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.route-order-option:hover {
+  border-color: var(--route-accent);
+}
+
+.route-order-option.selected {
+  border-color: var(--route-accent);
+  background: color-mix(in srgb, var(--route-accent) 9%, transparent);
+}
+
+.route-order-option input {
+  width: 17px;
+  height: 17px;
+  margin-top: 3px;
+  accent-color: var(--route-accent);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.route-order-option-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.route-order-option-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 9px;
+}
+
+.route-order-status {
+  display: inline-flex;
+  padding: 5px 9px;
+  border-radius: 20px;
+  background: rgba(34, 197, 94, 0.12);
+  color: #22c55e;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.route-buyer-name {
+  margin: 5px 0;
+  font-size: 0.92rem;
+  font-weight: 650;
+}
+
+.route-order-destination {
+  margin: 5px 0;
+  color: var(--route-muted);
+  font-size: 0.84rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.route-order-value {
+  margin-top: 9px;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.route-stop-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 8px 0;
+}
+
+.route-start-point,
+.route-end-point,
+.route-stop-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 8px;
+}
+
+.route-stop-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border: 2px solid var(--route-accent);
+  border-radius: 50%;
+  background: var(--route-card-bg);
+  color: var(--route-accent);
+  font-size: 0.8rem;
+  font-weight: 750;
+}
+
+.route-stop-marker.start-marker {
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+.route-stop-marker.end-marker {
+  border-color: #f59e0b;
+  color: #f59e0b;
+}
+
+.route-stop-information {
+  flex: 1;
+  min-width: 0;
+  padding-top: 3px;
+}
+
+.route-stop-information h4 {
+  margin: 0 0 5px;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.route-stop-information p {
+  margin: 0;
+  color: var(--route-muted);
+  font-size: 0.83rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.route-plan-notice,
+.route-demo-note {
+  margin-top: 18px;
+  padding: 13px 15px;
+  border: 1px solid var(--route-border);
+  border-radius: 10px;
+  color: var(--route-muted);
+  font-size: 0.83rem;
+  line-height: 1.6;
+}
+
+.route-plan-notice {
+  border-left: 3px solid var(--route-accent);
+}
+
+.route-demo-note {
+  background: color-mix(in srgb, var(--route-accent) 6%, transparent);
+}
+
+@media (max-width: 900px) {
+  .route-planner-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .route-optimization-page {
+    padding: 16px;
+  }
+
+  .route-overview-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .route-overview-card,
+  .route-orders-panel,
+  .route-plan-panel {
+    padding: 16px;
+  }
+
+  .route-page-header {
+    align-items: flex-start;
+  }
+
+  .route-page-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .route-order-option {
+    padding: 13px;
+  }
+
+  .route-panel-header {
+    align-items: flex-start;
+  }
+}

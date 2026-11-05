@@ -23,6 +23,17 @@ import ReturnRefund from './ReturnRefund';
 import ReviewsRatings from './ReviewsRatings';
 import SavedAddresses from './SavedAddresses';
 import OrderConfirmation from './OrderConfirmation';
+import NewAssignments from './NewAssignments';
+import MyAssignedDeliveries from './MyAssignedDeliveries';
+import ActiveDeliveries from './ActiveDeliveries';
+import RouteOptimization from './RouteOptimization';
+import UpdateDeliveryStatus from './UpdateDeliveryStatus';
+import DeliveryProof from './DeliveryProof';
+import VehicleManagement from './VehicleManagement';
+import LiveLocationSharing from './LiveLocationSharing';
+import MyEarnings from './MyEarnings';
+import ReportIssues from './ReportIssues';
+import AvailableDeliveries from './AvailableDeliveries';
 
 import {
   getUserCart,
@@ -348,17 +359,7 @@ const PLACEHOLDER_MODULES = [
   // All modules Done.
 
   // Logistics
-  'New Assignments',
-  'Available Deliveries',
-  'My Assigned Deliveries',
-  'Active Deliveries',
-  'Route Optimization',
-  'Update Delivery Status',
-  'Delivery Proof',
-  'Vehicle Management',
-  'Live Location Sharing',
-  'My Earnings',
-  'Report Issues'
+  // All modules Done.
 ];
 
 
@@ -874,6 +875,145 @@ if (
         <PriceAnalytics profile={profile} />
       </div>
     </main>
+  );
+}
+
+// ==========================================
+// LOGISTICS - NEW ASSIGNMENTS
+// ==========================================
+if (role === 'logistics' && activeModule === 'New Assignments') {
+  return (
+    <NewAssignments
+      profile={profile}
+      onBack={goToDashboard}
+    />
+  );
+}
+
+// ==========================================
+// LOGISTICS - MY ASSIGNED DELIVERIES
+// ==========================================
+if (role === 'logistics' && activeModule === 'My Assigned Deliveries') {
+  return (
+    <MyAssignedDeliveries
+      profile={profile}
+      onBack={goToDashboard}
+    />
+  );
+}
+
+// ==========================================
+// LOGISTICS - ACTIVE DELIVERIES
+// ==========================================
+if (role === 'logistics' && activeModule === 'Active Deliveries') {
+  return (
+    <ActiveDeliveries
+      profile={profile}
+      onBack={goToDashboard}
+    />
+  );
+}
+
+// ==========================================
+// LOGISTICS - ROUTE OPTIMIZATION
+// ==========================================
+
+if (role === 'logistics' && activeModule === 'Route Optimization') {
+  return (
+    <RouteOptimization
+      profile={profile}
+      onBack={goToDashboard}
+    />
+  );
+}
+
+// ==========================================
+// LOGISTICS - UPDATE DELIVERY STATUS
+// ==========================================
+
+if (role === 'logistics' && activeModule === 'Update Delivery Status') {
+  return (
+    <UpdateDeliveryStatus
+      profile={profile}
+      onBack={goToDashboard}
+    />
+  );
+}
+
+// ==========================================
+// LOGISTICS - DELIVERY PROOF
+// ==========================================
+
+if (role === 'logistics' && activeModule === 'Delivery Proof') {
+  return (
+    <DeliveryProof
+      profile={profile}
+      onBack={goToDashboard}
+    />
+  );
+}
+
+// ==========================================
+// LOGISTICS - VEHICLE MANAGEMENT
+// ==========================================
+
+if (role === 'logistics' && activeModule === 'Vehicle Management') {
+  return (
+    <VehicleManagement
+      profile={profile}
+      onBack={goToDashboard}
+    />
+  );
+}
+
+// ==========================================
+// LOGISTICS - LIVE LOCATION SHARING
+// ==========================================
+
+if (role === 'logistics' && activeModule === 'Live Location Sharing') {
+  return (
+    <LiveLocationSharing
+      profile={profile}
+      onBack={goToDashboard}
+    />
+  );
+}
+  // ==========================================
+  // LOGISTICS - MY EARNINGS 
+  // ==========================================
+
+  if (role === 'logistics' && activeModule === 'My Earnings') {
+  return (
+    <MyEarnings
+      profile={profile}
+      onBack={goToDashboard}
+    />
+  );
+}
+
+  // ===========================================
+  // LOGISTICS - REPORT ISSUES
+  // ==========================================
+
+  if (role === 'logistics' && activeModule === 'Report Issues') {
+  return (
+    <ReportIssues
+      profile={profile}
+      onBack={goToDashboard}
+    />
+  );
+}
+
+  // ==========================================
+  // LOGISTICS - AVAILABLE DELIVERIES
+  // ==========================================
+
+  if (role === 'logistics' && activeModule === 'Available Deliveries') {
+  return (
+    <AvailableDeliveries
+      profile={profile}
+      onBack={goToDashboard}
+    />
   );
 }
 
